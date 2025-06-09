@@ -1,0 +1,12 @@
+#preloader #status .spinner .double-bounce1, #preloader #status .spinner .double-bounce2 {
+    position: absolute;
+    top: 0;
+    inset-inline-start: 0px;
+    height: 100%;
+    width: 100%;
+    border-radius: 9999px;
+    background-color: rgb(245 158 11);
+
+    -webkit-animation: 2s ease-in-out infinite sk-bounce;
+    animation: 2s ease-in-out infinite sk-bounce;
+}
