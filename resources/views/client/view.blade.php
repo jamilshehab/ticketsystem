@@ -1,59 +1,74 @@
 <x-app-layout>
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    @if ($tickets->count()>0)
-      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-6 py-3">
-                    Title
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Content
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Image
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Actions
-                </th>
-            </tr>
-        </thead>
-   
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-      
-        <tbody>
-           @foreach ($tickets as $ticket)
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                
-                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                   @if($ticket->image)
-                   <img src="{{ asset('storage/' . $ticket->image) }}" 
-                    alt="Problem image" 
-                    class="w-16 h-auto rounded-md">
-                   @else
-                    —
-                   @endif
-                    <div class="ps-3">
-                        <div class="text-base font-semibold">{{$ticket->title}}</div>
-                        <div class="font-normal text-gray-500">{{$ticket->content}}</div>
-                    </div>  
-                </th>
-                <td class="px-6 py-4">
-                
-                </td>
-              <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit </a>
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
-                </td>
-            </tr>
-           @endforeach
-           
-           
-        </tbody>
-    </table>
-     @else
-     <p>No Posts Found</p>
-     @endif
-</div>
+    <div class="container px-4 mx-auto py-12">
+        <h1 class="text-2xl font-bold mb-6">Submitted Tickets</h1>
+ 
+        @if($tickets->count() > 0)
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-sm">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Title</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Content</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Image</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Submitted On</th>
+                            <th class="px-6 py-3 text-center text-sm font-semibold text-gray-700">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @foreach($tickets as $ticket)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 text-sm text-gray-800">{{ Str::limit($ticket->title, 4) }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-800">{{ Str::limit($ticket->content, limit: 15) }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-800">
+                                    @if($ticket->image)
+                                       <img src="{{ asset('storage/' . $ticket->image) }}" alt="Ticket Image">
+
+                                    @else
+                                        —
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4 text-sm">
+                                  <span class="inline-flex items-center  text-xs font-medium px-2.5 py-0.5 rounded-full  bg-yellow-500  ">
+                                  <span class="w-2 h-2 me-1 bg-whiterounded-full"></span>
+                                    {{$ticket->status }}
+                                  </span>  
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-600">
+                                    {{ $ticket->created_at->format('M d, Y H:i') }}
+                                </td>
+                                  <td class="px-6 py-4 text-center space-x-2">
+                                    {{-- <a href="{{ route('problems.show', $problem->id) }}" 
+                                     class="inline-block px-3 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-700">
+                                       View
+                                       </a> --}}
+                                    <a href="{{ route('client.edit', $problem->id) }}" 
+                                       class="inline-block px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">
+                                        Edit
+                                    </a>
+
+                                    {{-- <form action="{{ route('ticket.destroy', $ticket->id) }}" method="POST"
+                                          onsubmit="return confirm('Are you sure you want to delete this?');"
+                                          class="inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700">
+                                            Delete
+                                        </button>
+                                    </form> --}}
+                                </td>  
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-6 flex justify-center">
+                {{ $tickets->links() }}
+            </div>
+        @else
+            <p class="text-gray-600 text-center text-xl mt-8">No Tickets Found.</p>
+        @endif
+    </div>
 </x-app-layout>

@@ -10,14 +10,14 @@
                     <!-- Name -->
                     <div>
                         <x-input-label for="name" :value="__('Issue Title')" />
-                        <x-text-input id="firstName" class="block mt-1 w-full px-3 py-2" type="text" name="title" :value="old('firstName')" required autofocus autocomplete="name" />
+                        <x-text-input id="title" class="block mt-1 w-full px-3 py-2" type="text" name="title" :value="old('title')" required autofocus autocomplete="title" />
                         <x-input-error :messages="$errors->get('title')" class="mt-2" />
                     </div>
 
                     <div>
                         <x-input-label for="content" :value="__('Issue Content')" />
                         <textarea id="content" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
-                                  type="text" name="content" rows="4" required autofocus autocomplete="name">{{ old('content') }}</textarea>
+                                  type="text" name="content" rows="4" required autofocus autocomplete="content">{{ old('content') }}</textarea>
                         <x-input-error :messages="$errors->get('content')" class="mt-2" />
                     </div>
 

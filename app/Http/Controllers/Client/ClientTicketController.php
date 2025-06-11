@@ -18,7 +18,7 @@ class ClientTicketController extends Controller
         if($user->hasRole("manager") || $user->hasRole("agent")){
             abort(403,"anuthorized access");
         }
-        $tickets=Ticket::where("user_id",$user->id)->get(); 
+        $tickets=Ticket::where("user_id",$user->id)->paginate(8); 
       
         return view("client.view",compact("tickets"));
     }
@@ -52,8 +52,9 @@ class ClientTicketController extends Controller
         ]); 
        try {
          if($request->hasFile('image')){
-            $validation['image'] = $request->file('image')->store('public/images');
+           $validation['image']= $request->file('image')->store('images', 'public');
         }
+        $validation['user_id'] = $user->id;
         Ticket::create($validation);
         return redirect()->route('client.view')->with('success','Added Successfully');
        } catch (\Throwable $th) {
