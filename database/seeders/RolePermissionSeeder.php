@@ -16,14 +16,16 @@ class RolePermissionSeeder extends Seeder
             //clear cache permission
             app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
 
-            $roles=['admin','manager','agent','client'];
+           $roles = ['admin', 'manager', 'agent', 'client'];
 
-            foreach ($roles as $role) {
-                Role::firstOrCreate(['name'=>$role,
-                'guard_name' => 'web', // ← Explicitly set guard
-                 ]); 
-                
-            }
+           foreach ($roles as $role) {
+             Role::firstOrCreate(
+         ['name' => $role, 'guard_name' => 'web'],
+            ['name' => $role, 'guard_name' => 'web'] // Both search and create params
+           );
+         }
+
+            
              // 2. Create Permissions (Ticket-related)
           $permissions = [
             'create tickets',

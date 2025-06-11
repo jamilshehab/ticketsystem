@@ -50,8 +50,7 @@
       <div>
         <h4 class="text-lg font-medium text-gray-500 uppercase tracking-wider">Your Role</h4>
         <h3 class="text-2xl font-bold text-emerald-600 mt-1 capitalize">
-          {{ auth()->user()->getRoleNames()->first() }}
-        </h3>
+        {{ $user->getRoleNames()->first() }} </h3>
       </div>
     </div>
   </div>

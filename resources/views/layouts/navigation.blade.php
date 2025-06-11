@@ -15,7 +15,15 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-
+                
+                    @hasrole('client')
+                    <x-nav-link :href="route('client.create')" :active="request()->routeIs('client.create')">
+                        {{ __('Add Your Ticket') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('client.view')" :active="request()->routeIs('client.view')">
+                        {{ __('View Your Tickets') }}
+                    </x-nav-link>
+                    @endrole
                  
                 </div>
             </div>
