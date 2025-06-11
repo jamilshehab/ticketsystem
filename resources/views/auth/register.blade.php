@@ -5,13 +5,13 @@
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('First Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="firstName" :value="old('firstName')" required autofocus autocomplete="name" />
+            <x-text-input id="firstName" class="block mt-1 w-full" type="text" name="firstName" :value="old('firstName')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('firstName')" class="mt-2" />
         </div>
 
          <div>
             <x-input-label for="name" :value="__('Last Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="lastName" :value="old('lastName')" required autofocus autocomplete="name" />
+            <x-text-input id="lastName" class="block mt-1 w-full" type="text" name="lastName" :value="old('lastName')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('lastName')" class="mt-2" />
         </div>
 
@@ -21,17 +21,7 @@
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
-      <div class="mt-4 w-full"> <!-- Added w-full here -->
-    <div class="mt-4 w-full">
-    <x-input-label for="roles" :value="__('Role')" />
-    <select id="role" name="roles" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-        @foreach(['manager', 'agent', 'client'] as $role)
-            <option value="{{ $role }}">{{ ucfirst($role) }}</option>
-        @endforeach
-    </select>
-    <x-input-error :messages="$errors->get('role')" class="mt-2" />
-</div>
-</div>
+   
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
