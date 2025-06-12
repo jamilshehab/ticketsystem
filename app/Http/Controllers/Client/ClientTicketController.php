@@ -54,9 +54,11 @@ class ClientTicketController extends Controller
          if($request->hasFile('image')){
            $validation['image']= $request->file('image')->store('images', 'public');
         }
+        
         $validation['user_id'] = $user->id;
         Ticket::create($validation);
         return redirect()->route('client.index')->with('success','Added Successfully');
+        
        } catch (\Throwable $th) {
          return redirect()->back()->with('Ticket Update Failed',$th->getMessage());
        }

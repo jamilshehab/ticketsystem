@@ -39,10 +39,10 @@
                                     {{ $ticket->created_at->format('M d, Y H:i') }}
                                 </td>
                                 <td class="px-6 py-4 text-center space-x-2">
-                                    <a href="{{ route('agent.tickets.show', $ticket->id) }}" 
+                                    {{-- <a href="{{ route('agent.tickets.show', $ticket->id) }}" 
                                        class="inline-block px-3 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-700">
                                        View
-                                    </a>
+                                    </a> --}}
                                     {{-- Optional: Accept / Assign / Resolve button --}}
                                 </td>
                             </tr>
