@@ -24,7 +24,12 @@
                         {{ __('View Your Tickets') }}
                     </x-nav-link>
                     @endrole
-                 
+                   <!-- #region -->
+                   @hasrole('agent')
+                    <x-nav-link :href="route('agent.view')" :active="request()->routeIs('agent.view')">
+                        {{ __('View Client Tickets') }}
+                    </x-nav-link>
+                   @endrole
                 </div>
             </div>
 
