@@ -7,7 +7,7 @@ use App\Models\User;
  class Ticket extends Model
 {
     //
-    protected $fillable=["title","content","image","user_id"];
+    protected $fillable=["title","content","image","status","user_id"];
 
 
     public function user(){
