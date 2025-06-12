@@ -120,6 +120,16 @@ class ClientTicketController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+      $user=auth()->user();
+       try {
+         $ticket=Ticket::findOrFail($id);
+        if($user->hasRole('manager') || $user->hasRole('agent')){
+            abort(403,'anuothirized access');
+        }
+        $ticket->delete();
+         return redirect()->route('')->with('success','ticket deleted successfully');
+       } catch (\Throwable $th) {
+         return redirect()->back()->with('error',$th->getMessage());
+       }
     }
 }
