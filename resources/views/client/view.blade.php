@@ -47,7 +47,7 @@
                                         Edit
                                     </a>
 
-                                    <form action="{{ route('ticket.destroy', $ticket->id) }}" method="POST"
+                                    <form action="{{ route('client.destroy', $ticket->id) }}" method="POST"
                                           onsubmit="return confirm('Are you sure you want to delete this?');"
                                           class="inline-block">
                                         @csrf
