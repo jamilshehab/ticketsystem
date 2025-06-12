@@ -7,7 +7,6 @@
                 <form method="POST" action="{{ route('client.store') }}" enctype="multipart/form-data" class="space-y-6">
                     @csrf
 
-                    <!-- Name -->
                     <div>
                         <x-input-label for="name" :value="__('Issue Title')" />
                         <x-text-input id="title" class="block mt-1 w-full px-3 py-2" type="text" name="title" :value="old('title')" required autofocus autocomplete="title" />
