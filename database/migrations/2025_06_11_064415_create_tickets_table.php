@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->string('image')->nullabe();
             $table->foreignId('user_id')->constrained()->onDelete(action: 'cascade');
-            $table->string('status')->default('pending');
+            $table->enum('status', ['active', 'pending', 'suspended'])->default('pending');
             $table->timestamps();
         });
     }

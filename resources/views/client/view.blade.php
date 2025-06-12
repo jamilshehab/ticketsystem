@@ -22,7 +22,7 @@
                                 <td class="px-6 py-4 text-sm text-gray-800">{{ Str::limit($ticket->content, limit: 15) }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-800">
                                     @if($ticket->image)
-                                       <img src="{{ asset('storage/' . $ticket->image) }}" alt="Ticket Image">
+                                       <img src="{{ asset('storage/' . $ticket->image) }}" alt="Ticket Image" class="w-45 h-32">
 
                                     @else
                                         —

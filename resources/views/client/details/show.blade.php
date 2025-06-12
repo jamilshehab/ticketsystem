@@ -20,7 +20,7 @@
             <!-- Images -->
                  @if($ticket->image)
                         <div class="mt-4">
-                        <img src="{{ asset('storage/' . $ticket->image) }}" class="h-auto max-w-full" alt="Ticket Image">
+                        <img src="{{ asset('storage/' . $ticket->image) }}" class="h-auto max-w-full w-full" alt="Ticket Image">
                         </div>
                 @endif
 
@@ -46,7 +46,7 @@
                     </button>
                 </form>
 
-                <a href="{{ route('client.view') }}" 
+                <a href="{{ route('client.index') }}" 
                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
                     Back to All Tickets
                 </a>

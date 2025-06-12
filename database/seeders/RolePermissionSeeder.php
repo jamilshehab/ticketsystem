@@ -16,41 +16,65 @@ class RolePermissionSeeder extends Seeder
             //clear cache permission
             app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
 
-           $roles = ['admin', 'manager', 'agent', 'client'];
+        // 1. Create Roles
+        $roles = ['admin', 'manager', 'agent', 'client'];
+        
+        foreach ($roles as $role) {
+            Role::firstOrCreate(
+                ['name' => $role, 'guard_name' => 'web'],
+                ['name' => $role, 'guard_name' => 'web']
+            );
+        }
 
-           foreach ($roles as $role) {
-             Role::firstOrCreate(
-         ['name' => $role, 'guard_name' => 'web'],
-            ['name' => $role, 'guard_name' => 'web'] // Both search and create params
-           );
-         }
-
-            
-             // 2. Create Permissions (Ticket-related)
-          $permissions = [
+        // 2. Create Permissions (Ticket-related)
+        $permissions = [
             'create tickets',
             'view all tickets',
             'view own tickets',
+            'edit own tickets',
             'edit all tickets',
-            'edit assigned tickets',
+            'edit assigned tickets', // ✅ add this line
             'delete tickets',
+            'delete own tickets',  // Added for clients to delete their own tickets
             'assign tickets',
             'close tickets',
+            'reopen tickets',  // Added if you want clients to reopen closed tickets
         ];
         
-        foreach($permissions as $permission){
-            Permission::firstOrCreate(['name'=>$permission]);
+        foreach($permissions as $permission) {
+            Permission::firstOrCreate([
+                'name' => $permission,
+                'guard_name' => 'web'
+            ]);
         }
-        $admin=Role::findByName('admin');
+
+        // 3. Assign permissions to roles
+        $admin = Role::findByName('admin');
         $admin->givePermissionTo(Permission::all());
-        $manager=Role::findByName('manager');
-        $manager->givePermissionTo(['view all tickets','assign tickets','close tickets']);
-        $agent=Role::findByName('agent');
-        $agent->givePermissionTo(['create tickets','view own tickets','edit assigned tickets']);
-        $client=Role::findByName('client');
+
+        $manager = Role::findByName('manager');
+        $manager->givePermissionTo([
+            'view all tickets',
+            'assign tickets',
+            'close tickets',
+            'reopen tickets'
+        ]);
+
+        $agent = Role::findByName('agent');
+        $agent->givePermissionTo([
+            'create tickets',
+            'view own tickets',
+            'edit assigned tickets',
+            'close tickets'
+        ]);
+
+        $client = Role::findByName('client');
         $client->givePermissionTo([
-            'create tickets',  
-            'view own tickets'  
-        ]);     
-       }
+            'create tickets',
+            'view own tickets',
+            'edit own tickets',  // Allow clients to edit their own tickets
+            'delete own tickets' // Allow clients to delete their own tickets
+        ]);
+            
+    }
 }

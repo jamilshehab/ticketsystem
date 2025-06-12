@@ -56,7 +56,7 @@ class ClientTicketController extends Controller
         }
         $validation['user_id'] = $user->id;
         Ticket::create($validation);
-        return redirect()->route('client.view')->with('success','Added Successfully');
+        return redirect()->route('client.index')->with('success','Added Successfully');
        } catch (\Throwable $th) {
          return redirect()->back()->with('Ticket Update Failed',$th->getMessage());
        }
@@ -105,11 +105,13 @@ class ClientTicketController extends Controller
        try {
         $validation['user_id']=$user->id;
         if($request->hasFile('image')){
-          Storage::delete($request->image); 
-          $validation['image'] = $request->file('image')->store('public/images');
+          if ($ticket->image) {
+           Storage::disk('public')->delete($ticket->image);
+           }
+           $validation['image']= $request->file('image')->store('images', 'public');
         }
         $ticket->update($validation);
-        return redirect()->route('client.view')->with('success','Updated Successfully');
+        return redirect()->route('client.index')->with('success','Updated Successfully');
        } catch (\Throwable $th) {
          return redirect()->back()->with('error',$th->getMessage());
        }
@@ -121,13 +123,13 @@ class ClientTicketController extends Controller
     public function destroy(string $id)
     {
       $user=auth()->user();
+      $ticket=Ticket::findOrFail($id);
        try {
-         $ticket=Ticket::findOrFail($id);
         if($user->hasRole('manager') || $user->hasRole('agent')){
             abort(403,'anuothirized access');
         }
         $ticket->delete();
-         return redirect()->route('')->with('success','ticket deleted successfully');
+         return redirect()->route('client.index')->with('success','ticket deleted successfully');
        } catch (\Throwable $th) {
          return redirect()->back()->with('error',$th->getMessage());
        }

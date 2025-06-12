@@ -20,7 +20,7 @@
                     <x-nav-link :href="route('client.create')" :active="request()->routeIs('client.create')">
                         {{ __('Add Your Ticket') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('client.view')" :active="request()->routeIs('client.view')">
+                    <x-nav-link :href="route('client.index')" :active="request()->routeIs('client.index')">
                         {{ __('View Your Tickets') }}
                     </x-nav-link>
                     @endrole
