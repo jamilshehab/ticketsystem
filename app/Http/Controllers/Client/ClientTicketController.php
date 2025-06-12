@@ -67,6 +67,12 @@ class ClientTicketController extends Controller
     public function show(string $id)
     {
         //
+        $user=auth()->user();
+        if($user->hasRole('manager') || $user->hasRole('agent')){
+         abort(403,'anothorized access');
+        }
+        $ticket = Ticket::where('id', $id)->where('user_id', $user->id)->first();
+        return view('client.details.show',compact('ticket'));
     }
 
     /**
