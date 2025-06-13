@@ -13,4 +13,13 @@ class AgentController extends Controller
         $tickets=Ticket::where("status","pending")->with("user")->paginate(10);
          return view("agent.view",compact("tickets"));
     }
+    public function update(Request $request,string $id) {
+        $ticket=Ticket::findOrFail($id);
+        $validate=$request->validate([
+            'status'=>'required|in:pending,resolved,suspended'
+        ]);
+        $ticket->status = $validate['status'];
+        $ticket->save();
+        return redirect()->back()->with('success', 'Ticket status updated successfully.');
+    } 
 }

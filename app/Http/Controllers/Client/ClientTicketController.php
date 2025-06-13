@@ -49,13 +49,14 @@ class ClientTicketController extends Controller
             "title"=>"required|string|max:255",
             "content"=>"nullable|string",
             "image" => "nullable|image|mimes:jpeg,png,jpg,gif|max:2048",
-        ]); 
+         ]); 
        try {
          if($request->hasFile('image')){
            $validation['image']= $request->file('image')->store('images', 'public');
         }
         
         $validation['user_id'] = $user->id;
+        $validation['status']='Pending';
         Ticket::create($validation);
         return redirect()->route('client.index')->with('success','Added Successfully');
         

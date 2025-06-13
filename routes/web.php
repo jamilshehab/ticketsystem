@@ -12,6 +12,8 @@ Route::resource('client', controller: ClientTicketController::class)->middleware
 
 Route::middleware(["auth","role:agent"])->group(function () {
 Route::get("/agent",[AgentController::class,"index"])->name("agent.view");
+Route::put('/agent/tickets/{id}', [AgentController::class, 'update'])->name('agent.tickets.update');
+
 });
 
 Route::middleware('auth')->group(function () {

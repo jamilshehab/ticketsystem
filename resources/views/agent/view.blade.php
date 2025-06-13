@@ -39,11 +39,17 @@
                                     {{ $ticket->created_at->format('M d, Y H:i') }}
                                 </td>
                                 <td class="px-6 py-4 text-center space-x-2">
-                                    {{-- <a href="{{ route('agent.tickets.show', $ticket->id) }}" 
-                                       class="inline-block px-3 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-700">
-                                       View
-                                    </a> --}}
-                                    {{-- Optional: Accept / Assign / Resolve button --}}
+                                   <!-- Mark as In Progress -->
+ 
+<!-- Mark as Resolved -->
+<form action="{{ route('agent.tickets.update', $ticket->id) }}" method="POST" class="inline-block">
+    @csrf
+    @method('PUT')
+    <input type="hidden" name="status" value="Resolved">
+    <button type="submit" class="px-2 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700">
+        Resolve
+    </button>
+</form>
                                 </td>
                             </tr>
                         @endforeach
