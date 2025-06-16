@@ -10,16 +10,20 @@ class AgentController extends Controller
 {
     //
     public function index(){
-        $tickets=Ticket::where("status","pending")->with("user")->paginate(10);
+          $tickets = Ticket::where('assigned_to', auth()->id())
+                    ->where('status', 'active') 
+                    ->with('user') 
+                    ->paginate(10);
+        
          return view("agent.view",compact("tickets"));
     }
     public function update(Request $request,string $id) {
         $ticket=Ticket::findOrFail($id);
         $validate=$request->validate([
-            'status'=>'required|in:pending,resolved,suspended'
+            'status'=>'required|in:pending,resolved,suspended,active'
         ]);
         $ticket->status = $validate['status'];
         $ticket->save();
-        return redirect()->back()->with('success', 'Ticket status updated successfully.');
+        return redirect()->route('agent.view')->with('success', 'Ticket status updated successfully.');
     } 
 }

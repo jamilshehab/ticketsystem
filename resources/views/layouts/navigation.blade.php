@@ -30,6 +30,12 @@
                         {{ __('View Client Tickets') }}
                     </x-nav-link>
                    @endrole
+
+                   @hasrole('manager')
+                   <x-nav-link :href="route('manager.view')" :active="request()->routeIs('manager.view')">
+                        {{ __('View Client Tickets') }}
+                    </x-nav-link>
+                   @endrole
                 </div>
             </div>
 

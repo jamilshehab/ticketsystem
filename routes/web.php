@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\Client\ClientTicketController;
+use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Roles\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,11 @@ Route::get("/agent",[AgentController::class,"index"])->name("agent.view");
 Route::put('/agent/tickets/{id}', [AgentController::class, 'update'])->name('agent.tickets.update');
 
 });
+Route::middleware(['auth', 'role:manager'])->group(function () {
+    Route::get('/manager', [ManagerController::class, 'index'])->name('manager.view');
+    Route::post('/manager/{id}/assign', [ManagerController::class, 'assign'])->name('tickets.assign');
+}); 
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
