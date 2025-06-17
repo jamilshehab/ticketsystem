@@ -16,6 +16,7 @@ use Illuminate\Database\Seeder;
             RolePermissionSeeder::class,
             AgentSeeder::class,
             ManagerSeeder::class,
+            DepartmentSeeder::class,
          ]
         );
  

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Ticket;
+use App\Models\Department;
 
 class User extends Authenticatable
 {
@@ -24,6 +25,7 @@ class User extends Authenticatable
         'lastName',
         'email',
         'password',
+        'department_id'
     ];
 
     /**
@@ -51,5 +53,9 @@ class User extends Authenticatable
 
     public function tickets(){
         return $this->hasMany(Ticket::class);
+    }
+
+    public function department(){
+        return $this->belongsTo(Department::class);
     }
 }
