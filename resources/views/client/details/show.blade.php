@@ -6,9 +6,15 @@
             <div class="flex justify-between items-center mb-4">
                 <h1 class="text-2xl font-bold text-gray-800">{{ $ticket->title }}</h1>
                  <td class="px-6 py-4 text-sm">
-                 <span class="inline-flex items-center  text-xs font-medium px-2.5 py-0.5 rounded-full  bg-yellow-500  ">
-                 <span class="w-2 h-2 me-1 bg-whiterounded-full"></span>
-                {{$ticket->status }}
+                <span
+                class="px-2 py-1 rounded text-white text-xs
+                @if($ticket->status === 'pending') bg-yellow-500
+                @elseif($ticket->status === 'active') bg-blue-500
+                @elseif($ticket->status === 'resolved') bg-green-500
+                @elseif($ticket->status === 'suspended') bg-red-500
+                @endif">
+               {{ ucfirst($ticket->status) }}
+              </span> 
                </td>
             </div>
 
@@ -32,6 +38,8 @@
 
             <!-- Actions -->
             <div class="mt-6 flex space-x-4">
+                
+               @if($ticket->status!=='resolved')
                 <a href="{{ route('client.edit', $ticket->id) }}" 
                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
                     Edit
@@ -45,6 +53,7 @@
                         Delete
                     </button>
                 </form>
+               @endif
 
                 <a href="{{ route('client.index') }}" 
                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">

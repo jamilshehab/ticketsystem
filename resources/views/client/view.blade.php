@@ -41,12 +41,13 @@
                                 <td class="px-6 py-4 text-sm text-gray-600">
                                     {{ $ticket->created_at->format('M d, Y H:i') }}
                                 </td>
-                                 @if ($ticket->status !== 'resolved')
+                               
                                    <td class="px-6 py-4 text-center space-x-2">
                                     <a href="{{ route('client.show', $ticket->id) }}" 
                                      class="inline-block px-3 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-700">
                                        View
                                        </a>
+                                     @if ($ticket->status !== 'resolved')
                                     <a href="{{ route('client.edit', $ticket->id) }}" 
                                        class="inline-block px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">
                                         Edit
@@ -61,8 +62,9 @@
                                             Delete
                                         </button>
                                     </form>
-                                </td>  
                                  @endif
+                                </td>  
+                              
                             </tr>
                         @endforeach
                     </tbody>
