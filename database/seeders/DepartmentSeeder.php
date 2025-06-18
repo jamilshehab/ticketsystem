@@ -20,9 +20,9 @@ class DepartmentSeeder extends Seeder
 
         // Step 2: Create agents and assign to departments
         $agent1 = User::create([
-            'firstName' => 'Jamil',
-            'lastName' => 'Shehab',
-            'email' => 'jamil@support.com',
+            'firstName' => 'John',
+            'lastName' => 'Due',
+            'email' => 'due@support.com',
             'password' => Hash::make('password123'),
             'department_id' => $support->id,
         ]);
@@ -35,6 +35,7 @@ class DepartmentSeeder extends Seeder
             'password' => Hash::make('password123'),
             'department_id' => $sales->id,
         ]);
+
         $agent2->assignRole('agent');
     }
 }
