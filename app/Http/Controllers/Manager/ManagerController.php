@@ -19,7 +19,7 @@ class ManagerController extends Controller
 
     public function index()
     {
-    $tickets = Ticket::whereIn('status', ['pending', 'active'])->with('department')->paginate(10);
+    $tickets = Ticket::whereIn('status', ['pending', 'active','resolved'])->with('department')->paginate(10);
     $departments = Department::with('users')->get(); // optionally eager load users
     return view('manager.view', compact('tickets', 'departments'));
     }
@@ -40,8 +40,16 @@ public function assign(Request $request, string $id)
     $ticket->department_id = $request->input('department_id');
     $ticket->status = 'active';
     $ticket->save();
-
     return redirect()->route('manager.view')->with('success', 'Ticket assigned to department successfully.');
 }
+
+ public function show(string $id)
+    {
+    $user = auth()->user();
+    $ticket = Ticket::with('user')->findOrFail($id); // ✅ No user_id condition
+    $departments = Department::with('users')->get();
+
+    return view('manager.details.show', compact('ticket','departments'));
+    }
 
 }

@@ -22,22 +22,27 @@
                                 <td class="px-6 py-4 text-sm text-gray-800">{{ Str::limit($ticket->content, limit: 15) }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-800">
                                     @if($ticket->image)
-                                       <img src="{{ asset('storage/' . $ticket->image) }}" alt="Ticket Image" class="w-45 h-32">
-
+                                       <img src="{{ asset('storage/' . $ticket->image) }}" alt="Ticket Image" class="object-cover w-64 h-48">
                                     @else
                                         —
                                     @endif
                                 </td>
-                                <td class="px-6 py-4 text-sm">
-                                  <span class="inline-flex items-center  text-xs font-medium px-2.5 py-0.5 rounded-full  bg-yellow-500  ">
-                                  <span class="w-2 h-2 me-1 bg-whiterounded-full"></span>
-                                    {{$ticket->status }}
-                                  </span>  
+                                 <td class="px-6 py-4 text-sm">
+                                      <span
+                                     class="px-2 py-1 rounded text-white text-xs
+                                    @if($ticket->status === 'pending') bg-yellow-500
+                                    @elseif($ticket->status === 'active') bg-blue-500
+                                    @elseif($ticket->status === 'resolved') bg-green-500
+                                   @elseif($ticket->status === 'suspended') bg-red-500
+                                  @endif">
+                                 {{ ucfirst($ticket->status) }}
+                               </span> 
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-600">
                                     {{ $ticket->created_at->format('M d, Y H:i') }}
                                 </td>
-                                  <td class="px-6 py-4 text-center space-x-2">
+                                 @if ($ticket->status !== 'resolved')
+                                   <td class="px-6 py-4 text-center space-x-2">
                                     <a href="{{ route('client.show', $ticket->id) }}" 
                                      class="inline-block px-3 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-700">
                                        View
@@ -57,6 +62,7 @@
                                         </button>
                                     </form>
                                 </td>  
+                                 @endif
                             </tr>
                         @endforeach
                     </tbody>

@@ -24,7 +24,7 @@
                                 <td class="px-6 py-4 text-sm text-gray-800">{{ Str::limit($ticket->content, 30) }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-800">
                                     @if($ticket->image)
-                                        <img src="{{ asset('storage/' . $ticket->image) }}" alt="Ticket Image" class="w-45 h-32">
+                                        <img src="{{ asset('storage/' . $ticket->image) }}" alt="Ticket Image" class="w-45 h-32 object-cover">
                                     @else
                                         —
                                     @endif
@@ -44,18 +44,25 @@
                                     {{ $ticket->created_at->format('M d, Y H:i') }}
                                 </td>
                                 <td class="px-6 py-4 text-center space-x-2">
-                                   <!-- Mark as In Progress -->
- 
-<!-- Mark as Resolved -->
-<form action="{{ route('tickets.assign', $ticket->id) }}" method="POST" class="inline-block">
-    @csrf
-    @method('PUT')
-    <input type="hidden" name="status" value="resolved">
-    <button type="submit" class="px-2 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700">
-        Resolve
-    </button>
-</form>
-                                </td>
+                                 <div class="flex space-x-2">
+    <!-- View -->
+    <a href="{{ route('agent.show', $ticket->id) }}" 
+       class="inline-block px-3 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-700">
+        View
+    </a>
+    @if ($ticket->status !== 'resolved')
+    <!-- Resolve -->
+      <form action="{{ route('agent.update', $ticket->id) }}" method="POST">
+        @csrf
+        @method('PUT')
+        <input type="hidden" name="status" value="resolved">
+        <button type="submit" class="inline-block px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-600">
+            Resolve
+        </button>
+    </form>
+    @endif
+</div>
+                        </td>
                             </tr>
                         @endforeach
                     </tbody>

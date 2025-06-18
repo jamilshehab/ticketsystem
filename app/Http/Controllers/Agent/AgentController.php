@@ -24,19 +24,23 @@ class AgentController extends Controller
 
     // Fetch tickets assigned to this department with active status
     $tickets = Ticket::where('department_id', $departmentId)
-                     ->where('status', 'active')
+                     ->whereIn('status', ['active','resolved'])
                      ->with('user')
                      ->paginate(10);
 
      return view("agent.view", compact("tickets"));
     }
+    public function show($id){
+    $user = auth()->user();
+    $ticket = Ticket::with('user')->findOrFail($id);
+    return view('agent.details.show',compact('ticket'));
+    
+    }
     public function update(Request $request,string $id) {
-        $ticket=Ticket::findOrFail($id);
-        $validate=$request->validate([
-            'status'=>'required|in:pending,resolved,suspended,active'
-        ]);
-        $ticket->status = $validate['status'];
-        $ticket->save();
+         $user=auth()->user();
+         $ticket = Ticket::where('id', $id)->where('department_id', $user->department_id)
+                    ->firstOrFail();
+         $ticket->update(['status' => 'resolved']);
         return redirect()->route('agent.view')->with('success', 'Ticket status updated successfully.');
     } 
 }

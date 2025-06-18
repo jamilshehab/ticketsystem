@@ -13,12 +13,16 @@ Route::resource('client', controller: ClientTicketController::class)->middleware
 
 Route::middleware(["auth","role:agent"])->group(function () {
 Route::get("/agent",[AgentController::class,"index"])->name("agent.view");
-Route::put('/agent/tickets/{id}', [AgentController::class, 'update'])->name('agent.tickets.update');
+Route::put('/agent/tickets/{id}', [AgentController::class, 'update'])->name('agent.update');
+Route::get('/agent/tickets/{id}', [AgentController::class, 'show'])->name('agent.show');
+
 
 });
 Route::middleware(['auth', 'role:manager'])->group(function () {
     Route::get('/manager', [ManagerController::class, 'index'])->name('manager.view');
-    Route::post('/manager/{id}/assign', [ManagerController::class, 'assign'])->name('tickets.assign');
+    Route::post('/manager/assign/{id}', [ManagerController::class, 'assign'])->name('tickets.assign');
+    Route::get('/manager/tickets/{id}', [ManagerController::class, 'show'])->name('tickets.show');
+
 }); 
 
 

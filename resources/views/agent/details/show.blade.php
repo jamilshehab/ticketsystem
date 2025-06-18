@@ -5,11 +5,17 @@
             <!-- Title & Status -->
             <div class="flex justify-between items-center mb-4">
                 <h1 class="text-2xl font-bold text-gray-800">{{ $ticket->title }}</h1>
-                 <td class="px-6 py-4 text-sm">
-                 <span class="inline-flex items-center  text-xs font-medium px-2.5 py-0.5 rounded-full  bg-yellow-500  ">
-                 <span class="w-2 h-2 me-1 bg-whiterounded-full"></span>
-                {{$ticket->status }}
-               </td>
+                   <td class="px-6 py-4 text-sm">
+                  <span
+                  class="px-2 py-1 rounded text-white text-xs
+                 @if($ticket->status === 'pending') bg-yellow-500
+                 @elseif($ticket->status === 'active') bg-blue-500
+                 @elseif($ticket->status === 'resolved') bg-green-500
+                 @elseif($ticket->status === 'suspended') bg-red-500
+                 @endif">
+               {{ ucfirst($ticket->status) }}
+                </span> 
+                 </td>
             </div>
 
             <!-- Content -->
@@ -32,25 +38,23 @@
 
             <!-- Actions -->
             <div class="mt-6 flex space-x-4">
-                <a href="{{ route('client.edit', $ticket->id) }}" 
-                   class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                    Edit
-                </a>
+    <!-- Resolve Button -->
+    @if ($ticket->status !== 'resolved')
 
-                <form action="{{ route('client.destroy', $ticket->id) }}" method="POST"
-                      onsubmit="return confirm('Are you sure you want to delete this?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
-                        Delete
-                    </button>
-                </form>
+    <a href="{{ route('agent.update', $ticket->id) }}" 
+     class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+      Resolve
+    </a>
 
-                <a href="{{ route('client.index') }}" 
-                   class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
-                    Back to All Tickets
-                </a>
-            </div>
+    @endif
+
+
+    <!-- Back Button -->
+    <a href="{{ route('agent.view') }}" 
+       class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+        Back to All Tickets
+    </a>
+</div>
 
         </div>
     </div>
