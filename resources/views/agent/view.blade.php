@@ -25,7 +25,11 @@
                                 <td class="px-6 py-4 text-sm text-gray-800">
                                     @if($ticket->image)
                                         <img src="{{ asset('storage/' . $ticket->image) }}" alt="Ticket Image" class="w-45 h-32 object-cover">
-                                    @else
+                                    @elseif($ticket->image)
+                                     @foreach ($ticket->image as $image )
+                                      <img src="{{ asset('storage/' . $image) }}" alt="Ticket Image" class="w-45 h-32 object-cover">
+                                     @endforeach
+                                     @else
                                         —
                                     @endif
                                 </td>

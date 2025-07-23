@@ -8,28 +8,38 @@
                     @csrf
 
                     <div>
-                        <x-input-label for="name" :value="__('Issue Title')" />
+                        <x-input-label for="name" :value="__('Ticket Title')" />
                         <x-text-input id="title" class="block mt-1 w-full px-3 py-2" type="text" name="title" :value="old('title')" required autofocus autocomplete="title" />
                         <x-input-error :messages="$errors->get('title')" class="mt-2" />
                     </div>
 
                     <div>
-                        <x-input-label for="content" :value="__('Issue Content')" />
+                        <x-input-label for="content" :value="__('Ticket Content')" />
                         <textarea id="content" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
                                   type="text" name="content" rows="4" required autofocus autocomplete="content">{{ old('content') }}</textarea>
                         <x-input-error :messages="$errors->get('content')" class="mt-2" />
                     </div>
 
-                    <div class="mt-4">
-                        <x-input-label for="image" :value="__('Issue Image')" />
+                    {{-- <div class="mt-4">
+                        <x-input-label for="image" :value="__('Ticket Image')" />
                         <input type="file"
                             id="image"
                             name="image"
                             class="w-full text-slate-500 font-medium text-sm bg-gray-100 file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 file:bg-gray-800 file:hover:bg-gray-700 file:text-white rounded" />
                         <x-input-error :messages="$errors->get('image')" class="mt-2" /> 
                         <img id="preview" class="mt-4 w-20 h-20 rounded object-cover hidden" src="" alt="Image preview">
+                    </div> --}}
+                    <div class="mt-4">
+                        <x-input-label for="image" :value="__('Ticket Image')" />
+                        <input type="file"
+                            id="image"
+                            name="images[]"
+                            multiple
+                            accept="*/images"
+                            class="w-full text-slate-500 font-medium text-sm bg-gray-100 file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 file:bg-gray-800 file:hover:bg-gray-700 file:text-white rounded" />
+                        <x-input-error :messages="$errors->get('images')" class="mt-2" /> 
+                        <img id="preview" class="mt-4 w-20 h-20 rounded object-cover hidden" src="" alt="Image preview">
                     </div>
-                    
                     <div class="flex items-center  mt-6">
                         <x-primary-button >
                             {{ __('Add Your Ticket') }}
