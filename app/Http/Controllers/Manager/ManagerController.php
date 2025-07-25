@@ -10,19 +10,16 @@ use Illuminate\Http\Request;
 
 class ManagerController extends Controller
 {
-    //
-    // public function index(){
-    //     $tickets = Ticket::whereIn('status', ['pending', 'active'])->with('user')->paginate(10);
-    //      $users=User::role("agent")->get();
-    //     return view("manager.view",compact("tickets" ,"users"));
-    // }
+    
 
     public function index()
-    {
-    $tickets = Ticket::whereIn('status', ['pending', 'active','resolved'])->with('department')->paginate(10);
-    $departments = Department::with('users')->get(); // optionally eager load users
-    return view('manager.view', compact('tickets', 'departments'));
-    }
+{
+    $tickets = Ticket::whereIn('status', ['pending', 'active', 'resolved'])->with(['department', 'user'])->paginate(10);
+    $departments = Department::with('users')->get(); // to assign by department or user within
+    $agents = User::role('agent')->get(); // assign directly to an agent
+
+    return view('manager.view', compact('tickets', 'departments', 'agents'));
+}
 //     public function assign(Request $request, string $id) {
 //       $ticket = Ticket::findOrFail($id);
 //       $ticket->assigned_to = $request->input('agent_id');

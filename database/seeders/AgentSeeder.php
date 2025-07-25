@@ -14,12 +14,40 @@ class AgentSeeder extends Seeder
      */
     public function run(): void
     {
-    $user = User::create([
+
+    $layal = User::create([
+    'firstName' => 'Layal',
+    'lastName' => 'Zein',
+    'email' => 'layal@sales.com',
+    'password' => Hash::make('password123'),
+    ]);
+
+    $layal->assignRole('agent');    
+    $jamil = User::create([
     'firstName' => 'Jamil',
     'lastName' => 'Shehab',
     'email' => 'jamil@support.com',
     'password' => Hash::make('password123'),
      ]);
-    $user->assignRole('agent');
+    $jamil->assignRole('agent');
+    
+    $mohammad = User::create([
+    'firstName' => 'Mohammad',
+    'lastName' => 'Itani',
+    'email' => 'itani@support.com',
+    'password' => Hash::make('password123'),
+     ]);
+
+    $mohammad->assignRole('agent');
+
+    $omar = User::create([
+    'firstName' => 'Omar',
+    'lastName' => 'Itani',
+    'email' => 'omar@support.com',
+    'password' => Hash::make('password123'),
+     ]);
+
+    $omar->assignRole('agent');
+
     }
 }

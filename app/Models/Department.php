@@ -8,7 +8,7 @@ use App\Models\User;
 class Department extends Model
 {
     //
-    protected $fillable=['department_name'];
+    protected $fillable=['user_id','department_name'];
 
     public function users(){
         return $this->hasMany(User::class);

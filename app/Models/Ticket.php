@@ -8,7 +8,7 @@ use App\Models\Department;
  class Ticket extends Model
 {
     //
-    protected $fillable=["title","content","image","status","user_id" , "department_id"];
+    protected $fillable = ["title", "content", "status", "user_id", "department_id"];
 
 
     public function user(){
@@ -17,5 +17,9 @@ use App\Models\Department;
     
     public function department(){
         return $this->belongsTo(Department::class);
+    }
+
+    public function images(){
+      return $this->hasMany(TicketImage::class);
     }
 }

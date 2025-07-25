@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\TicketImage;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use Storage;
@@ -40,35 +41,34 @@ class ClientTicketController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    { 
        $user=auth()->user();
        if ($user->hasRole("agent") || $user->hasRole("manager")){
         abort(403,'anouthorized action');
        }
+       
         $validation=$request->validate([
             "title"=>"required|string|max:255",
             "content"=>"nullable|string",
-            "image" => "nullable|image|mimes:jpeg,png,jpg,gif|max:2048",
-            "images*"=>"nullable|image|mimes:jpeg,png,jpg,gif|max:2048"
+            "images.*"=>"nullable|image|mimes:jpeg,png,jpg,gif|max:2048"
          ]); 
-       try {
-        //  if($request->hasFile('images')){
-        //    $validation['image']= $request->file('image')->store('images', 'public');
-        // }
-        $images=$request->file('images');
-        if($request->hasFile('images')){
-          foreach ($images as $image){
-            $date=date_create();
-            $time=date_format($date,'YmdHis');
-            $imageName=$time . '-' . $image->getClientOriginalExtension();
-            $image->move(base_path() . '' , $imageName);
-          }
-        }
+       try { 
+       
         
         $validation['user_id'] = $user->id;
         $validation['status']='Pending';
 
-        Ticket::create($validation);
+        $ticket=Ticket::create($validation);
+         if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $image) {
+          $path = $image->store('uploads', 'public');
+
+           TicketImage::create([
+             'ticket_id' => $ticket->id,
+             'path' => $path,
+            ]);
+    }
+}
         return redirect()->route('client.index')->with('success','Added Successfully');
         
        } catch (\Throwable $th) {

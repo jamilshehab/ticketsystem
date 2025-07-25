@@ -17,18 +17,10 @@ class DepartmentSeeder extends Seeder
     {
        $support = Department::create(['department_name' => 'Support']);
        $sales = Department::create(['department_name' => 'Sales']);
-
+       
         // Step 2: Create agents and assign to departments
-        $agent1 = User::create([
-            'firstName' => 'John',
-            'lastName' => 'Due',
-            'email' => 'due@support.com',
-            'password' => Hash::make('password123'),
-            'department_id' => $support->id,
-        ]);
-        $agent1->assignRole('agent');
-
-        $agent2 = User::create([
+ 
+        $layal = User::create([
             'firstName' => 'Layal',
             'lastName' => 'Zein',
             'email' => 'layal@sales.com',
@@ -36,6 +28,34 @@ class DepartmentSeeder extends Seeder
             'department_id' => $sales->id,
         ]);
 
-        $agent2->assignRole('agent');
+        $layal->assignRole('agent');
+
+        $jamil = User::create([
+         'firstName' => 'Jamil',
+         'lastName' => 'Shehab',
+         'email' => 'jamil@support.com',
+         'password' => Hash::make('password123'),
+         'department_id' => $support->id,
+          ]);
+       $jamil->assignRole('agent');
+
+        $mohammad = User::create([
+        'firstName' => 'Mohammad',
+        'lastName' => 'Itani',
+        'email' => 'itani@support.com',
+        'password' => Hash::make('password123'),
+        ]);
+
+        $mohammad->assignRole('agent');
+
+        $omar = User::create([
+        'firstName' => 'Omar',
+        'lastName' => 'Itani',
+        'email' => 'omar@support.com',
+        'password' => Hash::make('password123'),
+         ]);
+
+        $omar->assignRole('agent');
+         
     }
 }

@@ -23,13 +23,15 @@
                                 <td class="px-6 py-4 text-sm text-gray-800">{{ Str::limit($ticket->title, 20) }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-800">{{ Str::limit($ticket->content, 30) }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-800">
-                                    @if($ticket->image)
-                                        <img src="{{ asset('storage/' . $ticket->image) }}" alt="Ticket Image" class="w-45 h-32 object-cover">
-                                    @elseif($ticket->image)
-                                     @foreach ($ticket->image as $image )
-                                      <img src="{{ asset('storage/' . $image) }}" alt="Ticket Image" class="w-45 h-32 object-cover">
-                                     @endforeach
-                                     @else
+                                    @if($ticket->images && $ticket->images->count())
+                                    <div class="flex gap-2 flex-wrap">
+                                    @foreach($ticket->images as $image)
+                                    <img src="{{ asset('storage/' . $image->path) }}" 
+                                     alt="Ticket Image" 
+                                     class="w-24 h-24 object-cover rounded shadow" />
+                                   @endforeach
+                                </div>
+                                    @else
                                         —
                                     @endif
                                 </td>

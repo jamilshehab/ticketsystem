@@ -20,16 +20,27 @@
                         <x-input-error :messages="$errors->get('content')" class="mt-2" />
                     </div>
 
-                    <div class="mt-4">
-                        <x-input-label for="image" :value="__('Issue Image')" />
+                    {{-- <div class="mt-4">
+                        <x-input-label for="image" :value="__('Ticket Image')" />
                         <input type="file"
                             id="image"
-                            name="image"
+                             name="image"
+                            class="w-full text-slate-500 font-medium text-sm bg-gray-100 file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 file:bg-gray-800 file:hover:bg-gray-700 file:text-white rounded" />
+                        <x-input-error :messages="$errors->get('image')" class="mt-2" /> 
+                        <img id="preview" class="mt-4 w-20 h-20 rounded object-cover hidden" src="" alt="Image preview">
+                    </div> --}}
+                     <div class="mt-4">
+                        <x-input-label for="image" :value="__('Ticket Image')" />
+                        <input type="file"
+                            id="image"
+                            required 
+                            multiple 
+                            name="images[]"
+                            accept="'images/*"
                             class="w-full text-slate-500 font-medium text-sm bg-gray-100 file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 file:bg-gray-800 file:hover:bg-gray-700 file:text-white rounded" />
                         <x-input-error :messages="$errors->get('image')" class="mt-2" /> 
                         <img id="preview" class="mt-4 w-20 h-20 rounded object-cover hidden" src="" alt="Image preview">
                     </div>
-                    
                     <div class="flex items-center  mt-6">
                         <x-primary-button >
                             {{ __('Add Your Ticket') }}
