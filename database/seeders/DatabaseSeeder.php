@@ -14,7 +14,7 @@ use Illuminate\Database\Seeder;
     {
          $this->call([
             RolePermissionSeeder::class,
-            AgentSeeder::class,
+            // AgentSeeder::class,
             ManagerSeeder::class,
             DepartmentSeeder::class,
          ]

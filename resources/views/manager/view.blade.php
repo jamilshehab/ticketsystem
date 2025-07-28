@@ -61,83 +61,59 @@
 
       
       @if ($ticket->status !== 'resolved')
-      <div x-data="{ type: 'department' }" class="flex items-center justify-center gap-4">
- <!-- Radio Buttons -->
-      <div class="flex flex-wrap gap-4">
-        <div class="flex items-center">
-            <input id="radio-department" type="radio" value="department" x-model="type" name="assign_type"
-                class="w-4 h-4 text-slate-900 bg-gray-100 border-gray-300 focus:ring-slate-900">
-            <label for="radio-department"
-                class="ml-2 text-sm font-medium text-gray-900">Department</label>
-        </div>
-        <div class="flex items-center">
-            <input id="radio-user" type="radio" value="user" x-model="type" name="assign_type"
-                class="w-4 h-4 text-slate-900 bg-gray-100 border-gray-300 focus:ring-slate-900">
-            <label for="radio-user"
-                class="ml-2 text-sm font-medium text-gray-900">Users</label>
+            <div class="w-full max-w-md">
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700">Select Options</label>
+            
+            <!-- Multi-select container -->
+            <div class="relative">
+                <!-- Selected options display -->
+                <div class="flex flex-wrap gap-2 p-2 border border-gray-300 rounded-lg bg-white min-h-12">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        Option 1
+                        <button type="button" class="ml-1.5 inline-flex text-blue-400 hover:text-blue-600 focus:outline-none">
+                            <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        Option 3
+                        <button type="button" class="ml-1.5 inline-flex text-blue-400 hover:text-blue-600 focus:outline-none">
+                            <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </span>
+                    <input type="text" placeholder="Search options..." class="flex-1 min-w-0 outline-none text-sm px-1 py-1">
+                </div>
+                
+                <!-- Dropdown options -->
+                <div class="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md py-1 border border-gray-200 max-h-60 overflow-auto">
+                    <div class="px-3 py-2 text-xs text-gray-500 uppercase font-medium">Options</div>
+                    
+                    @foreach ($departments as $department )
+                    <div class="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
+                         <label for="option5" class="ml-2 text-sm text-gray-700">{{$department->name}}</label>
+                    </div>
+                    @endforeach
+                     
+                    <div class="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
+                         <label for="option5" class="ml-2 text-sm text-gray-700">Option 5</label>
+                    </div>
+                     
+                </div>
+            </div>
+            
+            <p class="text-xs text-gray-500 mt-1">Select one or more options from the list</p>
         </div>
     </div>
-
-    <!-- Dropdown -->
-    <div class="relative">
-        <!-- Department Dropdown -->
-         
-           <div x-data="{ isOpen: false }" x-show="type === 'department'" class="relative w-fit">
-        <button @click="isOpen = !isOpen" class="inline-flex items-center gap-2 rounded border border-gray-300 bg-white px-4 py-2  w-full text-sm hover:bg-gray-100">
-            Assign Roles To Departments
-            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-        </button>
-
-        <!-- Dropdown menu -->
-        <div x-show="isOpen" @click.outside="isOpen=false" class="absolute z-10 py-2 bg-white border border-gray-200 rounded shadow w-full">
-            @foreach($departments as $department)
-                <form method="POST" action="{{ route('tickets.assign', $ticket->id) }}">
-                    @csrf
-                    <input type="hidden" name="department_id" value="{{ $department->id }}">
-                    <button type="submit" class="block w-full text-left px-2 my-2 text-sm text-gray-700 hover:bg-gray-100">
-                        {{$department->department_name}}
-                </form>
-            @endforeach
-        </div>
-       </div>
-        
-           
-        <div x-data="{ isOpen: false }" x-show="type === 'user'" class="relative w-fit">
-        <button @click="isOpen = !isOpen" class="inline-flex items-center gap-2 rounded border border-gray-300 bg-white px-4 py-2  w-full text-sm hover:bg-gray-100">
-            Assign Roles To Agents
-            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-        </button>
-
-        <!-- Dropdown menu -->
-        <div x-show="isOpen" @click.outside="isOpen=false" class="absolute z-10 py-2 bg-white border w-full border-gray-200 rounded shadow">
-            @foreach($agents as $agent)
-                <form method="POST" action="{{ route('tickets.assign', $ticket->id) }}">
-                    @csrf
-                    <input type="hidden" name="agent_id" value="{{ $agent->id }}">
-                    <button type="submit" class="block w-full text-left px-2 my-2 text-sm text-gray-700 hover:bg-gray-100">
-                        {{ $agent->firstName }}  {{$agent->lastName}}
-                </form>
-            @endforeach
-        </div>
-       </div>
-
-       
-    </div>
-
-</div>
       @endif
-
-
     </div>
 </td>
 </td>
 </div>
-
-                            </tr>
+   </tr>
                         @endforeach
                     </tbody>
                 </table>
