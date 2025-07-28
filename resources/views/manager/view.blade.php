@@ -27,7 +27,7 @@
                                      <img src="{{ asset('storage/' . $image->path) }}" 
                                      alt="Ticket Image" 
                                      class="w-24 h-24 object-cover rounded shadow" />
-                                     @endforeach
+                                   @endforeach
                                 </div>
                             @else
                              —

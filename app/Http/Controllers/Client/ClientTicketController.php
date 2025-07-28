@@ -20,7 +20,6 @@ class ClientTicketController extends Controller
             abort(403,"anuthorized access");
         }
         $tickets=Ticket::where("user_id",$user->id)->paginate(8); 
-      
         return view("client.view",compact("tickets"));
     }
 

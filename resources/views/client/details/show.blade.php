@@ -22,15 +22,15 @@
             <div class="mb-6">
                 <p class="text-gray-700 whitespace-pre-line">{{ $ticket->content }}</p>
             </div>
-
-            <!-- Images -->
-                 @if($ticket->image)
-                        <div class="mt-4">
-                        <img src="{{ asset('storage/' . $ticket->image) }}" class="w-full h-72 object-cover rounded shadow" alt="Ticket Image">
-                        </div>
-                @endif
-
-            <!-- Metadata -->
+              <div class="block  flex-wrap rows-1  columns-{{$ticket->images->count() <= 5 ? $ticket->images->count() : 5}}">
+                  @foreach($ticket->images as $image)
+                  <img src="{{ asset('storage/' . $image->path) }}" 
+                  alt="Ticket Image" 
+                  class="h-auto aspect-square  insets-2 object-cover rounded shadow flex-1 w-full" />
+                  @endforeach
+              </div>
+     <!-- #region -->       
+    
             <div class="mt-6 text-sm text-gray-500 border-t pt-4">
                 <p>Submitted by: <strong>{{ $ticket->user->firstName . ' ' . $ticket->user->lastName ?? 'Unknown User' }}</strong></p>
                 <p>On: {{ $ticket->created_at->format('M d, Y H:i') }}</p>

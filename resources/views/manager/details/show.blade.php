@@ -1,4 +1,5 @@
-<x-app-layout>
+ <x-app-layout>
+   
     <div class="container px-4 py-8 mx-auto">
         <div class="max-w-3xl p-6 mx-auto bg-white rounded-lg shadow-md">
 
@@ -23,12 +24,13 @@
                 <p class="text-gray-700 whitespace-pre-line">{{ $ticket->content }}</p>
             </div>
 
-            <!-- Images -->
-                 @if($ticket->image)
-                        <div class="mt-4">
-                        <img src="{{ asset('storage/' . $ticket->image) }}" class="w-full h-64 object-cover rounded shadow" alt="Ticket Image">
-                        </div>
-                @endif
+               <div class="block  flex-wrap rows-1  columns-{{$ticket->images->count() <= 5 ? $ticket->images->count() : 5}}">
+                  @foreach($ticket->images as $image)
+                  <img src="{{ asset('storage/' . $image->path) }}" 
+                  alt="Ticket Image" 
+                  class="h-auto aspect-square  insets-2 object-cover rounded shadow flex-1 w-full" />
+                  @endforeach
+              </div>
 
             <!-- Metadata -->
             <div class="mt-6 text-sm text-gray-500 border-t pt-4">
@@ -54,7 +56,7 @@
                 </svg>
             </button>
 
-            <div x-show="isOpen" @click.outside="isOpen = false" 
+            {{-- <div x-show="isOpen" @click.outside="isOpen = false" 
                  class="absolute z-10 mt-1 py-2 w-48 bg-white border border-gray-200 w-fit rounded shadow">
                 @foreach($departments as $department)
                     <form method="POST" action="{{ route('tickets.assign', $ticket->id) }}">
@@ -66,11 +68,11 @@
                         </button>
                     </form>
                 @endforeach
-            </div>
+            </div> --}}
                  </div>
                  @endif
             </div>
 
         </div>
     </div>
-</x-app-layout>
+</x-app-layout>  
