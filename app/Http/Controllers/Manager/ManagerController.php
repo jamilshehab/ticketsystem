@@ -12,11 +12,11 @@ class ManagerController extends Controller
 {
     public function index()
     {
+    $user=auth()->user();
     $tickets = Ticket::whereIn('status', ['pending', 'active', 'resolved'])->with(['department', 'user'])->paginate(10);
-    $departments = Department::with('users')->get(); // to assign by department or user within
-    $agents = User::role('agent')->get(); // assign directly to an agent
-    dd($agents);
-    return view('manager.view', compact('tickets', 'departments', 'agents'));
+    $agents=User::with('department')->get();
+    // dd($agents->toArray());
+    return view('manager.view', compact('tickets', 'agents'));
     }
  
 

@@ -61,53 +61,69 @@
 
       
       @if ($ticket->status !== 'resolved')
-            <div class="w-full max-w-md">
-        <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700">Select Options</label>
-            
-            <!-- Multi-select container -->
-            <div class="relative">
-                <!-- Selected options display -->
-                <div class="flex flex-wrap gap-2 p-2 border border-gray-300 rounded-lg bg-white min-h-12">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        Option 1
-                        <button type="button" class="ml-1.5 inline-flex text-blue-400 hover:text-blue-600 focus:outline-none">
-                            <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                    </span>
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        Option 3
-                        <button type="button" class="ml-1.5 inline-flex text-blue-400 hover:text-blue-600 focus:outline-none">
-                            <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                    </span>
-                    <input type="text" placeholder="Search options..." class="flex-1 min-w-0 outline-none text-sm px-1 py-1">
-                </div>
-                
-                <!-- Dropdown options -->
-                <div class="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md py-1 border border-gray-200 max-h-60 overflow-auto">
-                    <div class="px-3 py-2 text-xs text-gray-500 uppercase font-medium">Options</div>
-                    
-                    @foreach ($departments as $department )
-                    <div class="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
-                         <label for="option5" class="ml-2 text-sm text-gray-700">{{$department->name}}</label>
-                    </div>
-                    @endforeach
-                     
-                    <div class="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
-                         <label for="option5" class="ml-2 text-sm text-gray-700">Option 5</label>
-                    </div>
-                     
-                </div>
-            </div>
-            
-            <p class="text-xs text-gray-500 mt-1">Select one or more options from the list</p>
-        </div>
+         <div x-data="agentFilter(agents:{{$agents}})" class="relative w-full max-w-md">
+  <!-- Search Input (triggers dropdown) -->
+  <div class="relative">
+    <input 
+      x-model="searchQuery"
+      @focus="open=true"
+      class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      placeholder="Search Agents..."
+    >
+    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+      <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
     </div>
+  </div>
+
+  <!-- Dropdown Panel -->
+  <div 
+    x-show="open"
+    @click.away="open = false"
+    class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden"
+    x-transition
+  >
+    <!-- Loading State -->
+    <template x-if="loading">
+      <div class="p-3 text-center text-gray-500">Loading...</div>
+    </template>
+
+    <!-- Results -->
+    <template x-if="!loading && filteredAgents.length > 0">
+      <div class="max-h-60 overflow-y-auto">
+        <template x-for="agents in filteredAgents" :key="agents.id">
+          <label class="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer border-b border-gray-100">
+            {{-- <input 
+              type="checkbox" 
+              x-model="selectedDepartments" 
+              :value="department.id" 
+              class="rounded text-blue-600 focus:ring-blue-500"
+            > --}}
+            <span class="ml-2 text-sm" x-text="`${agents.firstName} (${agents.department.name})`"></span>
+          </label>
+        </template>
+      </div>
+    </template>
+
+    <!-- Empty State -->
+    <template x-if="!loading && filteredAgents.length === 0">
+      <div class="p-3 text-center text-gray-500">No departments found</div>
+    </template>
+  </div>
+
+  <!-- Selected Items (Pills) -->
+  <div x-show="selectedDepartments.length > 0" class="flex flex-wrap gap-2 mt-2">
+    <template x-for="id in selectedDepartments" :key="id">
+      <div class="flex items-center px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
+        <span x-text="getDepartmentName(id)"></span>
+        <button @click="removeDepartment(id)" class="ml-1 text-blue-600 hover:text-blue-800">
+          &times;
+        </button>
+      </div>
+    </template>
+  </div>
+</div>
       @endif
     </div>
 </td>
@@ -128,3 +144,4 @@
         @endif
     </div>
 </x-app-layout>
+<script src="{{asset('assets/js/search.js')}}"></script>
