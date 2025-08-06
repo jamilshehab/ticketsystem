@@ -153,7 +153,7 @@ class ClientTicketController extends Controller
             abort(403,'anuothirized access');
         }
            foreach($ticket->images as $image){
-          if(Storage::exists(Storage::disk('public')->url('uploads/' . $ticket->images))){
+          if(Storage::exists(Storage::disk('public')->url('uploads/' . $image))){
            Storage::delete($image);
            }
          
