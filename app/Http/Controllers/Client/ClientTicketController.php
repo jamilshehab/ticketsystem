@@ -152,11 +152,11 @@ class ClientTicketController extends Controller
         if($user->hasRole('manager') || $user->hasRole('agent')){
             abort(403,'anuothirized access');
         }
-           foreach($ticket->images as $image){
-          if(Storage::exists(Storage::disk('public')->url('uploads/' . $image))){
-           Storage::delete($image);
-           }
-         
+        if($ticket->images){
+        foreach($ticket->images as $image){
+         Storage::disk('public')->delete('/uploads'. $image);
+
+        }
         }
        
         $ticket->delete();
