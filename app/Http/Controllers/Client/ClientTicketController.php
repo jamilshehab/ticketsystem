@@ -146,12 +146,23 @@ class ClientTicketController extends Controller
     public function destroy(string $id)
     {
       $user=auth()->user();
-      $ticket=Ticket::findOrFail($id);
-       try {
+        $ticket=Ticket::with('images')->findOrFail($id);
+        
+        try {
         if($user->hasRole('manager') || $user->hasRole('agent')){
             abort(403,'anuothirized access');
         }
+           foreach($ticket->images as $image){
+          if(Storage::exists(Storage::disk('public')->url('uploads/' . $ticket->images))){
+           Storage::delete($image);
+           }
+         
+        }
+       
         $ticket->delete();
+         
+          
+       
          return redirect()->route('client.index')->with('success','ticket deleted successfully');
        } catch (\Throwable $th) {
          return redirect()->back()->with('error',$th->getMessage());
