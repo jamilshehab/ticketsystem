@@ -26,7 +26,7 @@
                 <x-input-label :value="__('Current Image')" />
                 <img src="{{ asset('storage/' . $ticket->image) }}" 
                      alt="Current  Image" class="h-40 mt-2 rounded">
-            </div>
+              </div>
 
        
             <!-- New Image -->

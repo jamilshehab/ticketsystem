@@ -1,7 +1,6 @@
 <x-app-layout>
     <div class="container px-4 mx-auto py-12">
         <h1 class="text-2xl font-bold mb-6">Submitted Tickets</h1>
- 
         @if($tickets->count() > 0)
             <div class="overflow-x-auto">
                 <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-sm">

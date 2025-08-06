@@ -22,7 +22,7 @@
             <div class="mb-6">
                 <p class="text-gray-700 whitespace-pre-line">{{ $ticket->content }}</p>
             </div>
-              <div class="block  flex-wrap rows-1  columns-{{$ticket->images->count() <= 5 ? $ticket->images->count() : 5}}">
+              <div class="block  flex-wrap rows-1   columns-{{$ticket->images->count() <= 5 ? $ticket->images->count() : 5}}">
                   @foreach($ticket->images as $image)
                   <img src="{{ asset('storage/' . $image->path) }}" 
                   alt="Ticket Image" 

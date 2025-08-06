@@ -50,16 +50,16 @@ class ClientTicketController extends Controller
             "title"=>"required|string|max:255",
             "content"=>"nullable|string",
             "images.*"=>"nullable|image|mimes:jpeg,png,jpg,gif|max:2048"
-         ]); 
-       try { 
-       
-        
+         ]);
+
+       try {    
         $validation['user_id'] = $user->id;
         $validation['status']='Pending';
-
-        $ticket=Ticket::create($validation);
-         if ($request->hasFile('images')) {
-        foreach ($request->file('images') as $image) {
+       
+        $ticket= Ticket::create($validation);
+      
+       if ($request->hasFile('images')) {
+         foreach ($request->file('images') as $image) {
           $path = $image->store('uploads', 'public');
 
            TicketImage::create([
@@ -107,23 +107,33 @@ class ClientTicketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-        $ticket=Ticket::findOrFail($id);
+         //
+        $ticket=Ticket::with('images')->findOrFail($id);
         $user=auth()->user();
         $validation=$request->validate([
             "title"=>"required|string|max:255",
             "content"=>"nullable|string",
-            'image' => "nullable|image|mimes:jpeg,png,jpg,gif|max:2048",
+            "images.*"=>"nullable|image|mimes:jpeg,png,jpg,gif|max:2048"
         ]); 
        try {
-        $validation['user_id']=$user->id;
-        if($request->hasFile('image')){
-          if ($ticket->image) {
-           Storage::disk('public')->delete($ticket->image);
+           if(isset($validation['images'])){
+           foreach ($ticket->images as $image){
+             Storage::disk('public')->delete($image);
+             $image->delete();
+             }
+            foreach ($validation['images'] as $image) {
+            $path = $image->store('uploads', 'public');
+            TicketImage::create([
+             'ticket_id' => $ticket->id,
+             'path' => $path,
+            ]);
            }
-           $validation['image']= $request->file('image')->store('images', 'public');
-        }
+           }
+           
+        $validation['user_id']=$user->id;   
         $ticket->update($validation);
+       
+     
         return redirect()->route('client.index')->with('success','Updated Successfully');
        } catch (\Throwable $th) {
          return redirect()->back()->with('error',$th->getMessage());
