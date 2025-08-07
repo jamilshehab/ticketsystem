@@ -35,6 +35,9 @@
                    <x-nav-link :href="route('manager.view')" :active="request()->routeIs('manager.view')">
                         {{ __('View Client Tickets') }}
                     </x-nav-link>
+                     <x-nav-link :href="route('user.index')" :active="request()->routeIs('manager.view')">
+                        {{ __('View Users') }}
+                    </x-nav-link>
                    @endrole
                 </div>
             </div>

@@ -55,12 +55,11 @@ class ClientTicketController extends Controller
        try {    
         $validation['user_id'] = $user->id;
         $validation['status']='Pending';
-       
         $ticket= Ticket::create($validation);
       
-       if ($request->hasFile('images')) {
+        if ($request->hasFile('images')) {
          foreach ($request->file('images') as $image) {
-          $path = $image->store('uploads', 'public');
+           $path = $image->store('uploads', 'public');
 
            TicketImage::create([
              'ticket_id' => $ticket->id,
