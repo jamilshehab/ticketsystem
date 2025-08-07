@@ -115,18 +115,26 @@ class ClientTicketController extends Controller
             "content"=>"nullable|string",
             "images.*"=>"nullable|image|mimes:jpeg,png,jpg,gif|max:2048"
         ]); 
-       try {
+
+        try {
+
            if(isset($validation['images'])){
-           foreach ($ticket->images as $image){
+          
+            foreach ($ticket->images as $image){
+             //first delete the image path 
              Storage::disk('public')->delete($image->path);
              $image->delete();
-             }
+            }
+            //after delete the image from the database and the storage folder 
+           
+            //create a images 
+            
             foreach ($validation['images'] as $image) {
-            $path = $image->store('uploads', 'public');
-            TicketImage::create([
-             'ticket_id' => $ticket->id,
-             'path' => $path,
-            ]);
+              $path = $image->store('uploads', 'public');
+              TicketImage::create([
+              'ticket_id' => $ticket->id,
+              'path' => $path,
+             ]);
            }
            }
            
@@ -165,7 +173,7 @@ class ClientTicketController extends Controller
      }
        
         $ticket->delete();
-    
+ 
          return redirect()->route('client.index')->with('success','ticket deleted successfully');
        } catch (\Throwable $th) {
          return redirect()->back()->with('error',$th->getMessage());
