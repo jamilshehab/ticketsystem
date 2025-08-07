@@ -118,7 +118,7 @@ class ClientTicketController extends Controller
        try {
            if(isset($validation['images'])){
            foreach ($ticket->images as $image){
-             Storage::disk('public')->delete($image);
+             Storage::disk('public')->delete($image->path);
              $image->delete();
              }
             foreach ($validation['images'] as $image) {
@@ -146,23 +146,26 @@ class ClientTicketController extends Controller
     public function destroy(string $id)
     {
       $user=auth()->user();
-        $ticket=Ticket::with('images')->findOrFail($id);
+      $ticket=Ticket::with('images')->findOrFail($id);
         
-        try {
-        if($user->hasRole('manager') || $user->hasRole('agent')){
+     try {
+      if($user->hasRole('manager') || $user->hasRole('agent')){
             abort(403,'anuothirized access');
-        }
-        if($ticket->images){
-        foreach($ticket->images as $image){
-         Storage::disk('public')->delete('/uploads'. $image);
+      }
 
-        }
-        }
+      if($ticket->images){
+        foreach ($ticket->images as $image){
+        $imagePath = $image->path;  // it tells uploads/12.jpg
+     
+       if (Storage::disk('public')->exists($imagePath)) {
+           Storage::disk('public')->delete($imagePath); // ✅ correct disk and path
+       }
+
+      }
+     }
        
         $ticket->delete();
-         
-          
-       
+    
          return redirect()->route('client.index')->with('success','ticket deleted successfully');
        } catch (\Throwable $th) {
          return redirect()->back()->with('error',$th->getMessage());
