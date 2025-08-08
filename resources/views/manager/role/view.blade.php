@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="container px-4 mx-auto py-12">
         <h1 class="text-2xl font-bold mb-6">View Users && Assign Roles</h1>
-        @if($users->count() > 0)
+        @if($users->count() > 0  )
             <div class="overflow-x-auto">
                 <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-sm">
                     <thead class="bg-gray-100">
@@ -24,12 +24,24 @@
                                
                                    <td class="px-6 py-4 text-center space-x-2">
                                    <div x-data="{ isOpen: false, openedWithKeyboard: false }" class="relative w-fit" x-on:keydown.esc.window="isOpen = false, openedWithKeyboard = false">
-                                    <select  class="select">   
+                                   <form action="{{ route('manager.update', $user->id) }}" method="POST">
+                                    @csrf 
+                                    <select  class="select" name="assign_role">   
                                      @foreach ($roles as $role)
                                        <option {{$user->roles[0]->id == $role->id ? "selected" : '' }}  value="{{$role->id}}" >{{$role->name}} </option>
                                      @endforeach 
                                      </select>   
-                                      <a href="#" class="bg-slate-900 px-3 py-2">Assign</a>
+                                     @if($user->getRoleNames()->first() === 'agent')
+                                     <select  class="select">   
+                                     @foreach ($departments as $department)
+                                    <option {{$department->id == $department->id ? "selected" : '' }}  value="{{$department->id}}" >{{$department->department_name}}  
+                                     @endforeach 
+                                     </select>
+                                     @else
+                                      @endif
+                                        
+                                      <button type="submit" class="bg-slate-900 rounded-xl text-white hover:bg-slate-800 px-3 py-2">Assign</button>
+                                   </form>
                                   </div>
                                  
                                      {{-- @if ($ticket->status !== 'resolved')

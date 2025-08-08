@@ -15,7 +15,7 @@ class ManagerController extends Controller
     $user=auth()->user();
     $tickets = Ticket::whereIn('status', ['pending', 'active', 'resolved'])->with(['department', 'user'])->paginate(10);
     $agents=User::with('department')->get();
-    $user_roles=User::all()->get();
+    $user_roles=User::all();
     // dd($agents->toArray());
     return view('manager.view', compact('tickets', 'agents'));
     }

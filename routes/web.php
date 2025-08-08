@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\Client\ClientTicketController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Roles\DashboardController;
@@ -22,9 +23,12 @@ Route::get('/agent/tickets/{id}', [AgentController::class, 'show'])->name('agent
 Route::middleware(['auth', 'role:manager'])->group(function () {
     Route::get('/manager', [ManagerController::class, 'index'])->name('manager.view');
     Route::post('/manager/assign/{id}', [ManagerController::class, 'assign'])->name('tickets.assign');
+    Route::get('/manager/show/{id}', [ManagerController::class, 'show'])->name('tickets.show');
 
     Route::get('/userRoles',[UserRoleController::class,'index'])->name('user.index');
-    Route::post('/userRoles/assign/{id}',[ManagerController::class,'update'])->name('manager.update');
+    Route::post('/userRoles/assign/{id}',[UserRoleController::class,'assign'])->name('manager.update');
+    Route::resource('department',DepartmentController::class)->except('show');
+    
 }); 
 
 

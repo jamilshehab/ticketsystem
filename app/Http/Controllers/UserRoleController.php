@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -16,7 +17,8 @@ class UserRoleController extends Controller
         //
         $users=User::all();
         $roles=Role::all();
-       return view('manager.role.view',compact('users') , compact('roles'));
+        $departments=Department::all();
+         return view('manager.role.view',compact('users','departments','roles'));
     }
 
     /**
@@ -54,12 +56,22 @@ class UserRoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function assign(Request $request, string $id)
     {
         //
-    }
+        $request->validate([
+             'assign_role'=>'required|exists:roles,id',
+        ]);
+        $user = User::with('roles')->findOrFail($id);
+        // Get the role name by ID
+        $role = Role::findOrFail($request->assign_role);
+    // Now pass the role name to syncRoles
+        $user->syncRoles($role->name);
+        return redirect()->route('user.index')->with('Success','Role Assigned Successfully');
+        
+        }
 
-    /**
+    /**.
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)

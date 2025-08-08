@@ -17,7 +17,7 @@ class RolePermissionSeeder extends Seeder
             app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
 
         // 1. Create Roles
-        $roles = ['admin', 'manager', 'agent', 'client'];
+        $roles = ['manager', 'agent', 'client'];
         
         foreach ($roles as $role) {
             Role::firstOrCreate(
@@ -49,8 +49,7 @@ class RolePermissionSeeder extends Seeder
         }
 
         // 3. Assign permissions to roles
-        $admin = Role::findByName('admin');
-        $admin->givePermissionTo(Permission::all());
+        
 
         $manager = Role::findByName('manager');
         $manager->givePermissionTo([

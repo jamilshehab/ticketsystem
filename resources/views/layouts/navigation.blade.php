@@ -35,10 +35,17 @@
                    <x-nav-link :href="route('manager.view')" :active="request()->routeIs('manager.view')">
                         {{ __('View Client Tickets') }}
                     </x-nav-link>
-                     <x-nav-link :href="route('user.index')" :active="request()->routeIs('manager.view')">
+                     <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
                         {{ __('View Users') }}
                     </x-nav-link>
+                       <x-nav-link :href="route('department.create')" :active="request()->routeIs('department.create')">
+                        {{ __('Add Departments') }}
+                    </x-nav-link>
+                     <x-nav-link :href="route('department.index')" :active="request()->routeIs('department.index')">
+                        {{ __('View Departments') }}
+                    </x-nav-link>
                    @endrole
+                   
                 </div>
             </div>
 
