@@ -34,7 +34,7 @@
                                      @if($user->getRoleNames()->first() === 'agent')
                                      <select  class="select">   
                                      @foreach ($departments as $department)
-                                    <option {{$department->id == $department->id ? "selected" : '' }}  value="{{$department->id}}" >{{$department->department_name}}  
+                                    <option {{$department->id == $user->department_id ? "selected" : '' }}  value="{{$department->id}}" >{{$department->department_name}}  
                                      @endforeach 
                                      </select>
                                      @else
