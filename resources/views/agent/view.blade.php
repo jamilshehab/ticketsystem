@@ -74,10 +74,10 @@
                     </tbody>
                 </table>
             </div>
-
+{{-- 
             <div class="mt-6 flex justify-center">
                 {{ $tickets->links() }}
-            </div>
+            </div> --}}
         @else
             <p class="text-gray-600 text-center text-xl mt-8">No Pending Tickets Found.</p>
         @endif

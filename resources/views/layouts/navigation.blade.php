@@ -44,6 +44,12 @@
                      <x-nav-link :href="route('department.index')" :active="request()->routeIs('department.index')">
                         {{ __('View Departments') }}
                     </x-nav-link>
+                     <x-nav-link :href="route('manager.create')" :active="request()->routeIs('manager.create')">
+                        {{ __('Assign Tickets') }}
+                    </x-nav-link>
+                     <x-nav-link :href="route('manager.index')" :active="request()->routeIs('department.index')">
+                        {{ __('Assigned Tickets') }}
+                    </x-nav-link>
                    @endrole
                    
                 </div>

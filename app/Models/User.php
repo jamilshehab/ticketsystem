@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -55,11 +54,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function tickets(){
         return $this->hasMany(Ticket::class);
     }
-     
-    public function ticketsAssigned()
-    {
-         return $this->belongsToMany(Ticket::class, 'agent_ticket', 'agent_id', 'ticket_id');
-      }
+       public function ticketsAssigned()
+{
+    return $this->belongsToMany(Ticket::class, 'agent_ticket', 'user_id', 'ticket_id')
+                ->withPivot('department_id'); // so you can access pivot department
+}
     public function department(){
         return $this->belongsTo(Department::class);
     }

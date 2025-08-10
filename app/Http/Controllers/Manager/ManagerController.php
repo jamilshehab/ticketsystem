@@ -25,8 +25,7 @@ class ManagerController extends Controller
 //assign to a department
 public function assign(Request $request, Ticket $ticket)
 {    
-        dd($ticket);
-    // 1. Validate the incoming request data
+     // 1. Validate the incoming request data
     $validated = $request->validate([
         'agents' => 'required|array|min:1',     // 'agents' must be an array with at least 1 item
         'agents.*' => 'exists:users,id',        // each item in 'agents' must be a valid user ID in the 'users' table

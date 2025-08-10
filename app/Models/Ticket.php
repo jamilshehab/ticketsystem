@@ -18,10 +18,12 @@ use App\Models\Department;
     public function department(){
         return $this->belongsTo(Department::class);
     }
-    public function agents()
-    {
-      return $this->belongsToMany(User::class, 'agent_ticket', 'ticket_id', 'agent_id');
-   }
+ public function agents()
+{
+    return $this->belongsToMany(User::class, 'agent_ticket', 'ticket_id', 'user_id')
+                ->withPivot('department_id') // include department in pivot data
+                ->whereHas('roles', fn($q) => $q->where('name', 'agent'));
+}
 
     public function images(){
       return $this->hasMany(TicketImage::class);

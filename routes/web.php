@@ -3,6 +3,7 @@
 use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\Client\ClientTicketController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\Manager\AssignTicketController;
 use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Roles\DashboardController;
@@ -12,18 +13,21 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('client', controller: ClientTicketController::class)->middleware(['auth','role:client']);
 
-
-Route::middleware(["auth","role:agent"])->group(function () {
+ 
+Route::middleware(["auth","role:agent",'verified'])->group(function () {
 Route::get("/agent",[AgentController::class,"index"])->name("agent.view");
 Route::put('/agent/tickets/{id}', [AgentController::class, 'update'])->name('agent.update');
 Route::get('/agent/tickets/{id}', [AgentController::class, 'show'])->name('agent.show');
 
 
 });
-Route::middleware(['auth', 'role:manager'])->group(function () {
+Route::middleware(['auth', 'role:manager' ])->group(function () {
     Route::get('/manager', [ManagerController::class, 'index'])->name('manager.view');
     Route::put('/manager/assign/{ticket}', [ManagerController::class, 'assign'])->name('tickets.assign');
- 
+    Route::get('/viewTickets', [AssignTicketController::class, 'index'])->name('manager.index');
+    Route::get('/addTicket',[AssignTicketController::class,'create'])->name('manager.create');
+    Route::post('/addTicket',[AssignTicketController::class,'store'])->name('manager.store');
+
     Route::get('/manager/show/{id}', [ManagerController::class, 'show'])->name('tickets.show');
 
     Route::get('/userRoles',[UserRoleController::class,'index'])->name('user.index');

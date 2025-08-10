@@ -8,25 +8,18 @@ use Illuminate\Http\Request;
 
 class AgentController extends Controller
 {
-    //
-    // public function index(){
-    //       $tickets = Ticket::where('assigned_to', auth()->id())
-    //                 ->where('status', 'active') 
-    //                 ->with('user') 
-    //                 ->paginate(10);
-        
-    //      return view("agent.view",compact("tickets"));
-    // }
+  
     public function index()
    {
-    // Get current user's department ID
-    $departmentId = auth()->user()->department_id;
+
+    $agent = auth()->user();
 
     // Fetch tickets assigned to this department with active status
-    $tickets = Ticket::where('department_id', $departmentId)
-                     ->whereIn('status', ['active','resolved'])
-                     ->with('user')
-                     ->paginate(10);
+    // $tickets = Ticket::where('department_id', $departmentId)
+    //                  ->whereIn('status', ['active','resolved'])
+    //                  ->with('user')
+    //                  ->paginate(10);
+    $tickets = $agent->ticketsAssigned()->get();
 
      return view("agent.view", compact("tickets"));
     }
