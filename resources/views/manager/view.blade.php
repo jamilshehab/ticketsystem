@@ -61,22 +61,29 @@
 
       
       @if ($ticket->status !== 'resolved')
-         <div x-data="agentFilter({{$agents}})" class="relative w-full max-w-md">
+        <form action="{{route('tickets.assign', $ticket->id) }}" method="POST">
+          @csrf
+          @method('PUT')
+           <div x-data="agentFilter({{$agents}})" class="relative w-full max-w-md">
   <!-- Search Input (triggers dropdown) -->
-  <div class="relative">
-    <input 
+          <div class="relative">
+            <input 
       @focus="open=true"
       @blur="filterAgents"
       class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
       placeholder="Search Agents..."
     >
-    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
       <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
       </svg>
-    </div>
-  </div>
-   <div x-show="selectedAgents.length > 0" class="flex flex-wrap gap-2 mt-2">
+          </div>
+   
+          </div>
+           <template x-for="agent in selectedAgents" :key="agent.id">
+             <input type="hidden" name="agents[]" :value="agent.id">
+           </template>
+         <div x-show="selectedAgents.length > 0" class="flex flex-wrap gap-2 mt-2">
    <template x-for="agent in selectedAgents">
       <div class="tag-badge inline-flex items-center rounded-md bg-gray-50 px-2 py-3 mx-3 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
         <span x-text="`${agent?.firstName ?? ''} ${agent?.lastName ?? ''} ${agent?.department?.department_name ?? ''}`"></span>
@@ -84,7 +91,7 @@
         <button class="mx-2 text-lg items-center flex"  @click="removeSelectedAgents(agent.id)">x</button>
       </div>
  </template> 
-  </div>
+         </div>
    
  
   <!-- Dropdown Panel -->
@@ -120,6 +127,11 @@
     </template>
   </div>
          </div>
+         <button type="submit" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded">
+           Assign Agents
+        </button>
+
+        </form>
       @endif
     </div>
 </td>

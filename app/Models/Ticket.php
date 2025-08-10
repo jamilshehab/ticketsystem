@@ -18,6 +18,10 @@ use App\Models\Department;
     public function department(){
         return $this->belongsTo(Department::class);
     }
+    public function agents()
+    {
+      return $this->belongsToMany(User::class, 'agent_ticket', 'ticket_id', 'agent_id');
+   }
 
     public function images(){
       return $this->hasMany(TicketImage::class);

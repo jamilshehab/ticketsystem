@@ -6,11 +6,12 @@
                 <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-sm">
                     <thead class="bg-gray-100">
                         <tr>
-                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">firstName</th>
-                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">lastName</th>
-                             <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Role</th>
-                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Submitted On</th>
-                            <th class="px-6 py-3 text-center text-sm font-semibold text-gray-700">Actions</th>
+                             <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">firstName</th>
+                             <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">lastName</th>
+                             <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Role</th>  
+                             <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Department</th>
+                             <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Submitted On</th>
+                             <th class="px-6 py-3 text-center text-sm font-semibold text-gray-700">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
@@ -20,6 +21,11 @@
                                 <td class="px-6 py-4 text-sm text-gray-800">{{ $user->firstName }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-800">{{$user->lastName}}</td>
                                 <td class="px-6 py-4 text-sm text-gray-800">{{$user->getRoleNames()->first() }}</td>
+                                  {{-- @if($user->getRoleNames()->first() === 'agent')
+                                   <td class="px-6 py-4 text-sm text-gray-800">{{$user->department->department_name }}</td>
+                                  @else
+                                   <td class="px-6 py-4 text-sm text-gray-800">No Departments Found</td>
+                                  @endif --}}
                                 <td class="px-6 py-4 text-sm text-gray-600">{{ $user->created_at->format('M d, Y H:i') }} </td>
                                
                                    <td class="px-6 py-4 text-center space-x-2">
@@ -32,7 +38,7 @@
                                      @endforeach 
                                      </select>   
                                      @if($user->getRoleNames()->first() === 'agent')
-                                     <select  class="select">   
+                                     <select name="select_departments" class="select">   
                                      @foreach ($departments as $department)
                                     <option {{$department->id == $user->department_id ? "selected" : '' }}  value="{{$department->id}}" >{{$department->department_name}}  
                                      @endforeach 

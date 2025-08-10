@@ -18,7 +18,7 @@ class UserRoleController extends Controller
         $users=User::all();
         $roles=Role::all();
         $departments=Department::all();
-         return view('manager.role.view',compact('users','departments','roles'));
+        return view('manager.role.view',compact('users','departments','roles'));
     }
 
     /**
@@ -59,14 +59,20 @@ class UserRoleController extends Controller
     public function assign(Request $request, string $id)
     {
         //
-        $request->validate([
+          
+         $request->validate([
              'assign_role'=>'required|exists:roles,id',
+             'select_departments'=>'nullable|exists:departments,id'
         ]);
         $user = User::with('roles')->findOrFail($id);
-        // Get the role name by ID
+         // Get the role name by ID
         $role = Role::findOrFail($request->assign_role);
     // Now pass the role name to syncRoles
+       
+        $user->department_id=$request->select_departments;
+         
         $user->syncRoles($role->name);
+        $user->save();
         return redirect()->route('user.index')->with('Success','Role Assigned Successfully');
         
         }

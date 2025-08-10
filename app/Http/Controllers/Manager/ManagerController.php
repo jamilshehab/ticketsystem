@@ -24,12 +24,26 @@ class ManagerController extends Controller
 
 //assign to a department
 public function assign(Request $request, Ticket $ticket)
-{
-    
-    $ticket->department_id = $request->input('department_id');
+{    
+        dd($ticket);
+    // 1. Validate the incoming request data
+    $validated = $request->validate([
+        'agents' => 'required|array|min:1',     // 'agents' must be an array with at least 1 item
+        'agents.*' => 'exists:users,id',        // each item in 'agents' must be a valid user ID in the 'users' table
+    ]);
+
+    // 2. Change the status of the ticket to 'active'
     $ticket->status = 'active';
+
+    // 3. Save the updated ticket status to the database
     $ticket->save();
-    return redirect()->route('manager.view')->with('success', 'Ticket assigned to department successfully.');
+
+    // 4. Sync the selected agents with this ticket via the many-to-many relationship
+    // This updates the pivot table to match exactly the IDs in $validated['agents']
+    $ticket->agents()->sync($validated['agents']);
+
+    // 5. Redirect back to the previous page with a success message
+    return redirect()->route('manager.view')->with('success', 'Agents assigned successfully.');
 }
 
  public function show(string $id)

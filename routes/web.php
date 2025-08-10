@@ -22,11 +22,13 @@ Route::get('/agent/tickets/{id}', [AgentController::class, 'show'])->name('agent
 });
 Route::middleware(['auth', 'role:manager'])->group(function () {
     Route::get('/manager', [ManagerController::class, 'index'])->name('manager.view');
-    Route::post('/manager/assign/{id}', [ManagerController::class, 'assign'])->name('tickets.assign');
+    Route::put('/manager/assign/{ticket}', [ManagerController::class, 'assign'])->name('tickets.assign');
+ 
     Route::get('/manager/show/{id}', [ManagerController::class, 'show'])->name('tickets.show');
 
     Route::get('/userRoles',[UserRoleController::class,'index'])->name('user.index');
     Route::post('/userRoles/assign/{id}',[UserRoleController::class,'assign'])->name('manager.update');
+     
     Route::resource('department',DepartmentController::class)->except('show');
     
 }); 
