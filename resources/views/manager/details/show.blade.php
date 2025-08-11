@@ -41,7 +41,7 @@
             <!-- Actions -->
             <div class="mt-6 flex space-x-4">
      
-                <a href="{{ route(name: 'manager.view') }}" 
+                <a href="{{ route(name: 'manager.index') }}" 
                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
                     Back to All Tickets
                 </a>
@@ -56,19 +56,7 @@
                 </svg>
             </button>
 
-            {{-- <div x-show="isOpen" @click.outside="isOpen = false" 
-                 class="absolute z-10 mt-1 py-2 w-48 bg-white border border-gray-200 w-fit rounded shadow">
-                @foreach($departments as $department)
-                    <form method="POST" action="{{ route('tickets.assign', $ticket->id) }}">
-                        @csrf
-                        <input type="hidden" name="department_id" value="{{ $department->id }}">
-                        <button type="submit" 
-                                class="block w-full text-left px-3 py-1 text-sm text-gray-700 hover:bg-gray-100">
-                            {{ $department->department_name }}
-                        </button>
-                    </form>
-                @endforeach
-            </div> --}}
+           
                  </div>
                  @endif
             </div>

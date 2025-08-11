@@ -2,11 +2,11 @@
     <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div class="w-full max-w-md space-y-8">
             <div class="bg-white p-8 shadow-xl rounded-lg">
-                <h2 class="text-center text-2xl font-bold text-gray-900 mb-6">Submit A New Ticket Issue</h2>
+                <h2 class="text-center text-2xl font-bold text-gray-900 mb-6">Assign A New Ticket</h2>
                 
                 <form method="POST" action="{{ route('manager.store') }}" enctype="multipart/form-data" class="space-y-6">
                     @csrf
-                    
+
                     <div>
                         <x-input-label for="name" :value="__('Ticket Title')" />
                         <x-text-input id="title" class="block mt-1 w-full px-3 py-2" type="text" name="title" :value="old('title')" required autofocus autocomplete="title" />
@@ -19,36 +19,19 @@
                                   type="text" name="content" rows="4" required autofocus autocomplete="content">{{ old('content') }}</textarea>
                         <x-input-error :messages="$errors->get('content')" class="mt-2" />
                     </div>
-  
-                     <div class="mt-4">
+ 
+                    <div class="mt-4">
                         <x-input-label for="image" :value="__('Ticket Image')" />
                         <input type="file"
                             id="image"
-                            required 
-                            multiple 
                             name="images[]"
-                            accept="'images/*"
+                            multiple
+                            accept="*/images"
                             class="w-full text-slate-500 font-medium text-sm bg-gray-100 file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 file:bg-gray-800 file:hover:bg-gray-700 file:text-white rounded" />
-                           <x-input-error :messages="$errors->get('image')" class="mt-2" /> 
-                           <img id="preview" class="mt-4 w-20 h-20 rounded object-cover hidden" src="" alt="Image preview">
-                            <div x-data="{ isOpen: false, openedWithKeyboard: false }" class="relative w-fit" x-on:keydown.esc.window="isOpen = false, openedWithKeyboard = false">
-                                     <select  class="select" name="assign_role">   
-                                     @foreach ($roles as $role)
-                                       <option {{$user->roles[0]->id == $role->id ? "selected" : '' }}  value="{{$role->id}}" >{{$role->name}} </option>
-                                     @endforeach 
-                                     </select>   
-                                     @if($user->getRoleNames()->first() === 'agent')
-                                     <select name="select_departments" class="select">   
-                                     @foreach ($departments as $department)
-                                    <option {{$department->id == $user->department_id ? "selected" : '' }}  value="{{$department->id}}" >{{$department->department_name}}  
-                                     @endforeach 
-                                     </select>
-                                     @else
-                                      @endif
-                                        
-    <!-- #endregion --> 
-                            </div>      
-                      </div>
+                        <x-input-error :messages="$errors->get('images')" class="mt-2" /> 
+                        {{-- <img id="preview" class="mt-4 w-20 h-20 rounded object-cover hidden" src="" alt="Image preview"> --}}
+                          <div id="preview-container" class="flex gap-2 flex-wrap mt-4"></div>
+                    </div>
                     <div class="flex items-center  mt-6">
                         <x-primary-button >
                             {{ __('Assign Ticket') }}
@@ -59,6 +42,4 @@
         </div>
     </div>
     <script src="{{ asset(path: 'assets/js/file/file.js') }}"></script>
-    <script src="{{ asset(path: 'assets/js/search.js') }}"></script>
-
 </x-app-layout>

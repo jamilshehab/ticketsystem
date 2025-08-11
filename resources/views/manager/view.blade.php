@@ -60,8 +60,8 @@
         </a>
 
       
-      @if ($ticket->status !== 'resolved')
-        <form action="{{route('tickets.assign', $ticket->id) }}" method="POST">
+      @if ($ticket->status !== 'resolved' && $ticket->status !=='active')
+        <form action="{{route('manager.assign', $ticket->id) }}" method="POST">
           @csrf
           @method('PUT')
            <div x-data="agentFilter({{$agents}})" class="relative w-full max-w-md">
@@ -81,8 +81,14 @@
    
           </div>
            <template x-for="agent in selectedAgents" :key="agent.id">
-             <input type="hidden" name="agents[]" :value="agent.id">
+            <input type="hidden" name="agents[]" :value="agent.id" />
            </template>
+
+<!-- Departments hidden inputs -->
+            <template x-for="agent?.department?.department_name in selectedDepartments" :key="department.id">
+              <input type="hidden" name="departments[]" :value="department.id" />
+            </template>
+           
          <div x-show="selectedAgents.length > 0" class="flex flex-wrap gap-2 mt-2">
    <template x-for="agent in selectedAgents">
       <div class="tag-badge inline-flex items-center rounded-md bg-gray-50 px-2 py-3 mx-3 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">

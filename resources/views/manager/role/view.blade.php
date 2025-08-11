@@ -21,11 +21,11 @@
                                 <td class="px-6 py-4 text-sm text-gray-800">{{ $user->firstName }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-800">{{$user->lastName}}</td>
                                 <td class="px-6 py-4 text-sm text-gray-800">{{$user->getRoleNames()->first() }}</td>
-                                  {{-- @if($user->getRoleNames()->first() === 'agent')
+                                  @if($user->getRoleNames()->first() === 'agent')
                                    <td class="px-6 py-4 text-sm text-gray-800">{{$user->department->department_name }}</td>
                                   @else
                                    <td class="px-6 py-4 text-sm text-gray-800">No Departments Found</td>
-                                  @endif --}}
+                                  @endif
                                 <td class="px-6 py-4 text-sm text-gray-600">{{ $user->created_at->format('M d, Y H:i') }} </td>
                                
                                    <td class="px-6 py-4 text-center space-x-2">

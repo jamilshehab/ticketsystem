@@ -11,7 +11,7 @@ use App\Http\Controllers\UserRoleController;
 use Illuminate\Support\Facades\Route;
  
 
-Route::resource('client', controller: ClientTicketController::class)->middleware(['auth','role:client']);
+Route::resource('client', controller: ClientTicketController::class)->middleware(['auth','role:client','verified']);
 
  
 Route::middleware(["auth","role:agent",'verified'])->group(function () {
@@ -21,12 +21,12 @@ Route::get('/agent/tickets/{id}', [AgentController::class, 'show'])->name('agent
 
 
 });
-Route::middleware(['auth', 'role:manager' ])->group(function () {
-    Route::get('/manager', [ManagerController::class, 'index'])->name('manager.view');
-    Route::put('/manager/assign/{ticket}', [ManagerController::class, 'assign'])->name('tickets.assign');
-    Route::get('/viewTickets', [AssignTicketController::class, 'index'])->name('manager.index');
-    Route::get('/addTicket',[AssignTicketController::class,'create'])->name('manager.create');
-    Route::post('/addTicket',[AssignTicketController::class,'store'])->name('manager.store');
+Route::middleware(['auth', 'role:manager','verified'])->group(function () {
+    Route::get('/manager', [ManagerController::class, 'index'])->name('manager.index');
+    Route::put('/manager/assign/{ticket}', [ManagerController::class, 'assign'])->name('manager.assign');
+ 
+    Route::get('/addTicket',[ManagerController::class,'create'])->name('manager.create');
+    Route::post('/addTicket',[ManagerController::class,'store'])->name('manager.store');
 
     Route::get('/manager/show/{id}', [ManagerController::class, 'show'])->name('tickets.show');
 
@@ -38,7 +38,7 @@ Route::middleware(['auth', 'role:manager' ])->group(function () {
 }); 
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth','verified'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     //routes for clients view
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

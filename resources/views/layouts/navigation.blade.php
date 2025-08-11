@@ -32,7 +32,7 @@
                    @endrole
 
                    @hasrole('manager')
-                   <x-nav-link :href="route('manager.view')" :active="request()->routeIs('manager.view')">
+                   <x-nav-link :href="route('manager.index')" :active="request()->routeIs('manager.index')">
                         {{ __('View Client Tickets') }}
                     </x-nav-link>
                      <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
@@ -47,9 +47,7 @@
                      <x-nav-link :href="route('manager.create')" :active="request()->routeIs('manager.create')">
                         {{ __('Assign Tickets') }}
                     </x-nav-link>
-                     <x-nav-link :href="route('manager.index')" :active="request()->routeIs('department.index')">
-                        {{ __('Assigned Tickets') }}
-                    </x-nav-link>
+                 
                    @endrole
                    
                 </div>

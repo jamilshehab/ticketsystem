@@ -9,20 +9,20 @@ use Illuminate\Http\Request;
 class AgentController extends Controller
 {
   
-    public function index()
-   {
-
+ public function index()
+{
     $agent = auth()->user();
 
-    // Fetch tickets assigned to this department with active status
-    // $tickets = Ticket::where('department_id', $departmentId)
-    //                  ->whereIn('status', ['active','resolved'])
-    //                  ->with('user')
-    //                  ->paginate(10);
-    $tickets = $agent->ticketsAssigned()->get();
+    // Get tickets assigned to this agent
+    $tickets = Ticket::whereHas('agents', function ($query) use ($agent) {
+        $query->where('users.id', $agent->id);
+    })
+    ->whereIn('status', ['active', 'resolved']) // optional filter
+    ->with('user') // eager load ticket owner
+    ->paginate(10);
 
-     return view("agent.view", compact("tickets"));
-    }
+    return view("agent.view", compact("tickets"));
+}
     public function show($id){
     $user = auth()->user();
     $ticket = Ticket::with('user')->findOrFail($id);
