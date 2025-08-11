@@ -55,10 +55,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Ticket::class);
     }
        public function ticketsAssigned()
-{
-    return $this->belongsToMany(Ticket::class, 'agent_ticket', 'user_id', 'ticket_id')
+      {
+        return $this->belongsToMany(Ticket::class, 'agent_ticket', 'user_id', 'ticket_id')
                 ->withPivot('department_id'); // so you can access pivot department
-}
+       }
     public function department(){
         return $this->belongsTo(Department::class);
     }

@@ -83,11 +83,8 @@
            <template x-for="agent in selectedAgents" :key="agent.id">
             <input type="hidden" name="agents[]" :value="agent.id" />
            </template>
-
-<!-- Departments hidden inputs -->
-            <template x-for="agent?.department?.department_name in selectedDepartments" :key="department.id">
-              <input type="hidden" name="departments[]" :value="department.id" />
-            </template>
+ 
+            
            
          <div x-show="selectedAgents.length > 0" class="flex flex-wrap gap-2 mt-2">
    <template x-for="agent in selectedAgents">
