@@ -52,7 +52,7 @@
                                      class="inline-block px-3 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-700">
                                        View
                                        </a>
-                                     @if ($ticket->status !== 'resolved')
+                                     @if ($ticket->status !== 'pending')
                                     <a href="{{ route('client.edit', $ticket->id) }}" 
                                        class="inline-block px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">
                                         Edit
