@@ -8,8 +8,8 @@
                         <tr>
                              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">firstName</th>
                              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">lastName</th>
-                             <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Role</th>  
-                              
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Email</th>
+                             <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Role</th>              
                              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Department</th>
                              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Submitted On</th>
                             <th class="px-6 py-3 text-center text-sm font-semibold text-gray-700">Actions</th>
@@ -21,6 +21,8 @@
                             <tr class="hover:bg-gray-50">
                                 <td class="px-6 py-4 text-sm text-gray-800">{{ $user->firstName }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-800">{{$user->lastName}}</td>
+                                <td class="px-6 py-4 text-sm text-gray-800">{{$user->email}}</td>
+
                                 <td class="px-6 py-4 text-sm text-gray-800">{{$user->getRoleNames()->first() }}</td>
                                   @if($user->getRoleNames()->first() === 'agent' &&  $user->department)
                                    <td class="px-6 py-4 text-sm text-gray-800">{{$user->department->department_name }}</td>
@@ -52,24 +54,16 @@
                                    </form>
                                   </div>
                                  
-                                     {{-- @if ($ticket->status !== 'resolved')
-                                  
-
-                                    <form action="{{ route('client.destroy', $ticket->id) }}" method="POST"
-                                          onsubmit="return confirm('Are you sure you want to delete this?');"
-                                          class="inline-block">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700">
-                                            Delete
-                                        </button>
-                                    </form>
-                                 @endif --}}
+                                    
                                 </td>  
                               
                             </tr>
                         @endforeach
                     </tbody>
+
+                    <div class="mt-4">
+                        {{$users->links()}}
+                    </div>
                 </table>
             </div>
         @else

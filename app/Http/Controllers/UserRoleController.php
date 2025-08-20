@@ -16,7 +16,7 @@ class UserRoleController extends Controller
     {
         //
         $userId=auth()->id();
-        $users = User::where('id', '!=', $userId)->get();
+        $users = User::where('id', '!=', $userId)->paginate(8);
         $roles=Role::all();
         $departments=Department::all();
         return view('manager.role.view',compact('users','departments','roles'));
