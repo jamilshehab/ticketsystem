@@ -9,9 +9,10 @@
                              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">firstName</th>
                              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">lastName</th>
                              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Role</th>  
+                              
                              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Department</th>
                              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Submitted On</th>
-                             <th class="px-6 py-3 text-center text-sm font-semibold text-gray-700">Actions</th>
+                            <th class="px-6 py-3 text-center text-sm font-semibold text-gray-700">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
@@ -21,8 +22,9 @@
                                 <td class="px-6 py-4 text-sm text-gray-800">{{ $user->firstName }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-800">{{$user->lastName}}</td>
                                 <td class="px-6 py-4 text-sm text-gray-800">{{$user->getRoleNames()->first() }}</td>
-                                  @if($user->getRoleNames()->first() === 'agent')
+                                  @if($user->getRoleNames()->first() === 'agent' &&  $user->department)
                                    <td class="px-6 py-4 text-sm text-gray-800">{{$user->department->department_name }}</td>
+                                 
                                   @else
                                    <td class="px-6 py-4 text-sm text-gray-800">No Departments Found</td>
                                   @endif

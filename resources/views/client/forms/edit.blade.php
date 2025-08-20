@@ -2,7 +2,7 @@
     <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div class="w-full max-w-md space-y-8">
             <div class="bg-white p-8 shadow-xl rounded-lg">
-                <h2 class="text-center text-2xl font-bold text-gray-900 mb-6">Edit your Ticket Issue</h2>
+                <h2 class="text-center text-2xl font-bold text-gray-900 mb-6">Edit your Ticket </h2>
                 
                 <form method="POST" action="{{ route('client.update' , $ticket->id) }}" enctype="multipart/form-data" class="space-y-6">
                     @csrf
@@ -24,7 +24,7 @@
 
                      <div class="mt-4">
                 <x-input-label :value="__('Current Image')" />
-                  <div class="block  flex-wrap rows-1   columns-{{$ticket->images->count() <= 5 ? $ticket->images->count() : 5}}">
+                  <div class="block  flex-wrap rows-1 columns-5  columns-{{$ticket->images->count() <= 5 ? $ticket->images->count() : 5}}">
                   @foreach($ticket->images as $image)
                   <img src="{{ asset('storage/' . $image->path) }}" 
                   alt="Ticket Image" 

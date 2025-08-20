@@ -41,7 +41,7 @@ class ManagerController extends Controller
       
         if ($request->hasFile('images')) {
          foreach ($request->file('images') as $image) {
-           $path = $image->store('uploads', 'public');
+         $path = $image->store('uploads', 'public');
 
            TicketImage::create([
              'ticket_id' => $ticket->id,

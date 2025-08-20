@@ -12,8 +12,7 @@
                             <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Image</th>
                             <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
                             <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Submitted On</th>
-                            <th class="px-6 py-3 text-center text-sm font-semibold text-gray-700">Actions</th>
-                        </tr>
+                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                         @foreach($tickets as $ticket)
@@ -47,7 +46,7 @@
                                 <td class="px-6 py-4 text-sm text-gray-600">
                                     {{ $ticket->created_at->format('M d, Y H:i') }}
                                 </td>
-                                <div  class="relative w-fit" x-on:keydown.esc.window="isOpen = false, openedWithKeyboard = false">
+                                <div  class="relative flex" x-on:keydown.esc.window="isOpen = false, openedWithKeyboard = false">
     <!-- Toggle Button -->
     <td class="px-6 py-4 text-sm text-center">
     <td class="px-6 py-4 text-sm text-center">
@@ -55,13 +54,13 @@
      <div class="flex items-center justify-center gap-2">
         <!-- View Button -->
         <a href="{{ route('tickets.show', $ticket->id) }}" 
-           class="px-3 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-700">
+           class="px-3 py-1 bg-black text-white text-sm rounded hover:bg-slate-900">
             View
         </a>
 
       
       @if ($ticket->status !== 'resolved' && $ticket->status !=='active')
-        <form action="{{route('manager.assign', $ticket->id) }}" method="POST">
+        <form action="{{route('manager.assign', $ticket->id) }}" method="POST" class="flex items-center justify-center">
           @csrf
           @method('PUT')
            <div x-data="agentFilter({{$agents}})" class="relative w-full max-w-md">
@@ -117,7 +116,7 @@
     <template x-for="agent in filteredAgents" :key="agent.id">
       
       <li class="block w-full px-4 py-3 hover:bg-gray-50 transition-colors duration-150 border-b border-gray-100 last:border-b-0"    @click="addSelectedAgents(agent.id)" >
-    <div class="flex flex-row min-w-0 gap-1">
+    <div class="flex flex-row min-w-0 gap-2">
         <p class="text-base font-semibold text-gray-900 truncate" x-text="`${agent?.firstName ?? ''} ${agent?.lastName ?? ''}`"></p>
         <div class="flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -130,9 +129,9 @@
     </template>
   </div>
          </div>
-         <button type="submit" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded">
-           Assign Agents
-        </button>
+          <button type="submit" class="px-3 py-2 m-3 bg-black text-white text-sm rounded hover:bg-gray-700 whitespace-nowrap">
+          Assign Agents
+          </button>
 
         </form>
       @endif

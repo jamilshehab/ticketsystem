@@ -12,14 +12,11 @@ use Illuminate\Support\Facades\Route;
  
 
 Route::resource('client', controller: ClientTicketController::class)->middleware(['auth','role:client','verified']);
-
  
 Route::middleware(["auth","role:agent",'verified'])->group(function () {
 Route::get("/agent",[AgentController::class,"index"])->name("agent.view");
 Route::put('/agent/tickets/{id}', [AgentController::class, 'update'])->name('agent.update');
 Route::get('/agent/tickets/{id}', [AgentController::class, 'show'])->name('agent.show');
-
-
 });
 Route::middleware(['auth', 'role:manager','verified'])->group(function () {
     Route::get('/manager', [ManagerController::class, 'index'])->name('manager.index');

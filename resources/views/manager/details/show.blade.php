@@ -45,7 +45,7 @@
                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
                     Back to All Tickets
                 </a>
-                @if ($ticket->status !== 'resolved')
+                {{-- @if ($ticket->status !== 'resolved')
 
                  <div x-data="{ isOpen: false }" class="relative w-fit">
             <button @click="isOpen = !isOpen" 
@@ -58,7 +58,7 @@
 
            
                  </div>
-                 @endif
+                 @endif --}}
             </div>
 
         </div>
