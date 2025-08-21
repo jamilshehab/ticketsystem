@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('department_name');
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('head_of_department_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

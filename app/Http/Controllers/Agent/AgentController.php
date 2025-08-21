@@ -27,8 +27,10 @@ class AgentController extends Controller
 }
     public function show($id){
     $user = auth()->user();
-    $ticket = Ticket::findOrFail($id);
-    dd($ticket->agents());
+    $ticket = Ticket::with('agents')->findOrFail($id);
+
+   
+
     if ($user->hasRole('manager') || $user->hasRole('client') ) {
         abort(403, 'Unauthorized access');
     }

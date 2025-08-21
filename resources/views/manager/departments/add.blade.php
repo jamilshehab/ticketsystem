@@ -11,7 +11,19 @@
                         <x-text-input id="title" class="block mt-1 w-full px-3 py-2" type="text" name="department_name" :value="old('title')" required autofocus autocomplete="title" />
                         <x-input-error :messages="$errors->get('department_name')" class="mt-2" />
                     </div>
-
+                    <div class="">
+                <select name="head_of_department_id" class="select" required>
+                  @foreach ($agents as $agent)
+                     <option  value="{{ $agent->id }}">
+                    {{ $agent->firstName }} {{ $agent->lastName }} 
+                   @if($agent->department)
+                  - {{ $agent->department->department_name }}
+                   @endif
+                 </option>
+                @endforeach
+               </select>
+                         
+                     </div>
                     <div class="flex items-center  mt-6">
                         <x-primary-button >
                             {{ __('Add Department') }}

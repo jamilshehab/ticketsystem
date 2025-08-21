@@ -7,6 +7,7 @@
                     <thead class="bg-gray-100">
                         <tr>
                             <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Title</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Head of Departments</th>
                              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Submitted On</th>
                             <th class="px-6 py-3 text-center text-sm font-semibold text-gray-700">Actions</th>
                         </tr>
@@ -15,16 +16,23 @@
                         @foreach($departments as $department)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-6 py-4 text-sm text-gray-800">{{  $department->department_name }}</td>
+       
+                                @if ($department->head_of_department)
+                                 <td>{{ $department->head_of_department->firstName }}   {{ $department->head_of_department->lastName }}</td>
+                                  
+                                @else
+                                <td>No Head Assigned</td>
+                                 @endif
                                 
+                                
+
                                 
                                 <td class="px-6 py-4 text-sm text-gray-600">
                                     {{ $department->created_at->format('M d, Y H:i') }}
                                 </td>
                                
                                    <td class="px-6 py-4 text-center space-x-2">
-                                  
-                                     @if ($department->status !== 'resolved')
-                                    <a href="{{ route('department.edit', $department->id) }}" 
+                                      <a href="{{ route('department.edit', $department->id) }}" 
                                        class="inline-block px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">
                                         Edit
                                     </a>
@@ -38,8 +46,7 @@
                                             Delete
                                         </button>
                                     </form>
-                                 @endif
-                                </td>  
+                                   </td>  
                               
                             </tr>
                         @endforeach

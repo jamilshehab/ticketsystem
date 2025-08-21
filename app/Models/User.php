@@ -54,6 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function tickets(){
         return $this->hasMany(Ticket::class);
     }
+    
        public function ticketsAssigned()
       {
         return $this->belongsToMany(Ticket::class, 'agent_ticket', 'user_id', 'ticket_id')
@@ -62,4 +63,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function department(){
         return $this->belongsTo(Department::class);
     }
+    public function headedDepartment(){
+        return $this->hasOne(Department::class,'head_of_department_id');
+    }
+    //because the head of department owns the department itself
+    
 }

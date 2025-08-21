@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class DepartmentController extends Controller
 {
@@ -13,9 +15,10 @@ class DepartmentController extends Controller
     public function index()
     {
         //
-       $departments=Department::all();
-        
-        return view('manager.departments.view',compact('departments'));
+    //    $users=User::with('department')->get();
+          $departments=Department::with('head_of_department')->get();
+       
+          return view('manager.departments.view',compact('departments'));
 
     }
 
@@ -25,21 +28,27 @@ class DepartmentController extends Controller
     public function create()
     {
         //
-        return view('manager.departments.add');
+        $agents=User::role('agent')->with('roles','department')->get();
+        
+        return view('manager.departments.add',compact('agents'));
     }
-
+ 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         //
-        $user=auth()->id();
+        
         $validation=$request->validate([
-            'department_name'=>'required|string|max:255'
+            'department_name'=>'required|string|max:255',
+            'head_of_department_id' => 'required|exists:users,id', // user with role agent
         ]);
-        $validation['user_id'] = $user;
+         $validation['user_id'] = auth()->id();
+         
          Department::create($validation);
+        //  $user = User::findOrFail($validation['head_of_department_id']);
+        //  $user->syncRoles(roles: 'head_of_department');
          return redirect()->route('department.index')->with('Success','Created Successfully');
     }
 
