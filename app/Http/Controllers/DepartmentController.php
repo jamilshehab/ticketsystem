@@ -46,9 +46,12 @@ class DepartmentController extends Controller
         ]);
          $validation['user_id'] = auth()->id();
          
-         Department::create($validation);
-        //  $user = User::findOrFail($validation['head_of_department_id']);
-        //  $user->syncRoles(roles: 'head_of_department');
+        $department= Department::create($validation);
+        // Update the chosen agent's department_id
+        $agent = User::find($validation['head_of_department_id']);
+        $agent->department_id = $department->id;
+        $agent->save();
+
          return redirect()->route('department.index')->with('Success','Created Successfully');
     }
 
