@@ -59,7 +59,7 @@
         </a>
 
       
-      @if ($ticket->status !== 'resolved' && $ticket->status !=='active')
+      {{-- @if ($ticket->status !== 'resolved' && $ticket->status !=='active')
         <form action="{{route('manager.assign', $ticket->id) }}" method="POST" class="flex items-center justify-center">
           @csrf
           @method('PUT')
@@ -129,12 +129,15 @@
     </template>
   </div>
          </div>
-          <button type="submit" class="px-3 py-2 m-3 bg-black text-white text-sm rounded hover:bg-gray-700 whitespace-nowrap">
-          Assign Agents
-          </button>
+        
 
         </form>
-      @endif
+      @endif --}}
+
+        <a href="{{ route('manager.assignManager', $ticket->id) }}" type="submit" class="px-3 py-2 m-3 bg-black text-white text-sm rounded hover:bg-gray-700 whitespace-nowrap">
+          Assign Agents
+        </a>
+
     </div>
 </td>
 </td>

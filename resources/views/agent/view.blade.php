@@ -17,7 +17,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                        @foreach($tickets as $ticket)  
+                        @foreach($tickets as $ticket)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-6 py-4 text-sm text-gray-800">{{ $ticket->user->firstName }} <br> <small>{{ $ticket->user->email }}</small></td>
                                 <td class="px-6 py-4 text-sm text-gray-800">{{ Str::limit($ticket->title, 20) }}</td>

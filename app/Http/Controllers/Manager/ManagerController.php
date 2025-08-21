@@ -56,6 +56,9 @@ class ManagerController extends Controller
        }
     }
 
+    public function tickets_assign(){
+        return view('manager.assign.forms.edit');
+    }
 //assign to a department
 public function assign(Request $request, Ticket $ticket)
 {
