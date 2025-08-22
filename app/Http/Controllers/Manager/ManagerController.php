@@ -56,8 +56,18 @@ class ManagerController extends Controller
        }
     }
 
-    public function tickets_assign(){
-        return view('manager.assign.forms.edit');
+    public function tickets_assign(string $id){
+        $ticket=Ticket::findOrFail($id);
+        $agents = User::with('department')
+    ->whereIn('id', function ($query) {
+        $query->select('head_of_department_id')
+              ->from('departments')
+              ->whereNotNull('head_of_department_id');
+    })
+    ->get();
+        
+
+        return view('manager.assign.forms.edit', compact('ticket', 'agents'));
     }
 //assign to a department
 public function assign(Request $request, Ticket $ticket)

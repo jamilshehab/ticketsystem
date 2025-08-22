@@ -21,7 +21,7 @@ Route::get('/agent/tickets/{id}', [AgentController::class, 'show'])->name('agent
 Route::middleware(['auth', 'role:manager','verified'])->group(function () {
     Route::get('/manager', [ManagerController::class, 'index'])->name('manager.index');
     Route::put('/manager/assign/{ticket}', [ManagerController::class, 'assign'])->name('manager.assign');
-    Route::get('/assignManager',[ManagerController::class,'tickets_assign'])->name('manager.assignManager');
+    Route::get('/assignManager/{id}',[ManagerController::class,'tickets_assign'])->name('manager.assignManager');
     Route::get('/addTicket',[ManagerController::class,'create'])->name('manager.create');
     Route::post('/addTicket',[ManagerController::class,'store'])->name('manager.store');
 
