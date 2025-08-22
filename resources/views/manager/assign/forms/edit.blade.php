@@ -40,7 +40,8 @@
                     class="block w-full mt-1 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-slate-800 file:text-white hover:file:bg-slate-700" />
                 <x-input-error :messages="$errors->get('image')" class="mt-2" />
             </div>
-                 <div x-data="agentFilter({{$agents}})" class="relative w-full max-w-md">
+              <div class="my-5">
+                   <div x-data="agentFilter({{$agents}})" class="relative w-full max-w-md">
   <!-- Search Input (triggers dropdown) -->
           <div class="relative">
             <input 
@@ -105,10 +106,11 @@
       </li>
     </template>
   </div>
-         </div>     
+                 </div>    
+              </div> 
                     <div class="flex items-center  mt-6">
                         <x-primary-button >
-                            {{ __('Update Your Ticket') }}
+                            {{ __('Assign Tickets') }}
                         </x-primary-button>
                     </div>
                 </form>

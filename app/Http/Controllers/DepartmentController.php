@@ -48,7 +48,7 @@ class DepartmentController extends Controller
          
         $department= Department::create($validation);
         // Update the chosen agent's department_id
-        $agent = User::find($validation['head_of_department_id']);
+        $agent = User::findOrFail($validation['head_of_department_id']);
         $agent->department_id = $department->id;
         $agent->save();
 
